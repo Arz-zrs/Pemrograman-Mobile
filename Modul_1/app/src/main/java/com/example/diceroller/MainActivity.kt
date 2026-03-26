@@ -61,7 +61,6 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
     val doubleMessage = stringResource(R.string.the_double)
     val unluckyMessage = stringResource(R.string.unlucky)
 
-
     var result1 by remember { mutableStateOf(1) }
     val imageResource1 = when (result1) {
         1 -> R.drawable.dice_1
