@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "diceroller_xml"
+include(":app")
