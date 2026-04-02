@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
@@ -15,7 +16,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
 
-    <ImageView
+        <ImageView
             android:id="@+id/dice_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
 
     <Space
         android:layout_width="0dp"
-        android:layout_height="16dp"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
@@ -46,5 +47,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/roll" />
-    <!-- TODO: fix layout centering & implement snackbar-->
 </LinearLayout>

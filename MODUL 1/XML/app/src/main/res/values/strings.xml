@@ -2,4 +2,6 @@
     <string name="app_name">diceroller_xml</string>
     <string name="roll">Roll</string>
     <string name="default_content_description">1</string>
+    <string name="the_double">Selamat, anda dapat dadu double!</string>
+    <string name="unlucky">Anda belum beruntung!"</string>
 </resources>
