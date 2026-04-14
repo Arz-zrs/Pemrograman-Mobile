@@ -15,12 +15,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -63,9 +67,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TipTimeLayout() {
     var amountInput by remember { mutableStateOf("") }
-    var tipInput by remember { mutableStateOf("") }
+    var tipInput by remember { mutableStateOf("15%") }
     var roundUp by remember { mutableStateOf(false) }
-    val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
+    val tipPercent = tipInput.replace("%", "").toDoubleOrNull() ?: 0.0
     val amount = amountInput.toDoubleOrNull() ?: 0.0
 
     val tip = calculateTip(amount, tipPercent, roundUp)
@@ -98,18 +102,12 @@ fun TipTimeLayout() {
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
         )
-        EditNumberField(
+        EditNumberSpinner(
             label = R.string.how_was_the_service,
             leadingIcon = R.drawable.percent,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            value = tipInput,
+            selectedValue = tipInput,
             onValueChanged = { tipInput = it },
             modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth()
         )
         RoundTheTipRow(
             roundUp = roundUp,
@@ -142,6 +140,57 @@ fun EditNumberField(
         label = { Text(stringResource(label)) },
         keyboardOptions = keyboardOptions
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditNumberSpinner(
+    @StringRes label: Int,
+    @DrawableRes leadingIcon: Int,
+    selectedValue: String,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val options = listOf(
+        "15%",
+        "20%",
+        "25%"
+    )
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = {expanded = !expanded},
+        modifier = modifier
+    ) {
+        TextField(
+            value = selectedValue,
+            onValueChange = onValueChanged,
+            readOnly = true,
+            label = { Text(stringResource(label)) },
+            leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null)},
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true)
+                .fillMaxWidth()
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { selectOption ->
+                DropdownMenuItem(
+                    text = { Text(text = selectOption) },
+                    onClick = {
+                        onValueChanged(selectOption)
+                        expanded = false
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                )
+            }
+        }
+    }
 }
 
 @Composable
