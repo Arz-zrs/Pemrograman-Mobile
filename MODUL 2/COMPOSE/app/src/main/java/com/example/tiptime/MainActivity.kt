@@ -66,12 +66,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TipTimeLayout() {
+    val option1 = stringResource(R.string.tip_option_1)
+
     var amountInput by remember { mutableStateOf("") }
-    var tipInput by remember { mutableStateOf("15%") }
+    var tipInput by remember { mutableStateOf(option1) }
     var roundUp by remember { mutableStateOf(false) }
+
     val tipPercent = tipInput.replace("%", "").toDoubleOrNull() ?: 0.0
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-
     val tip = calculateTip(amount, tipPercent, roundUp)
 
     Column(
@@ -153,9 +155,9 @@ fun EditNumberSpinner(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val options = listOf(
-        "15%",
-        "20%",
-        "25%"
+        R.string.tip_option_1,
+        R.string.tip_option_2,
+        R.string.tip_option_3
     )
 
     ExposedDropdownMenuBox(
@@ -180,10 +182,11 @@ fun EditNumberSpinner(
             onDismissRequest = { expanded = false }
         ) {
             options.forEach { selectOption ->
+                val option = stringResource(selectOption)
                 DropdownMenuItem(
-                    text = { Text(text = selectOption) },
+                    text = { Text(text = option) },
                     onClick = {
-                        onValueChanged(selectOption)
+                        onValueChanged(option)
                         expanded = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
