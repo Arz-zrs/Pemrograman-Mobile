@@ -1,19 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="40dp"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/calculate_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="40dp"
+            android:paddingBottom="16dp"
+            android:text="@string/calculate_tip"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bill_amount"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:padding="8dp"
+            app:startIconDrawable="@drawable/money">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/number_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/bill_amount"
+                android:maxLines="1"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:paddingStart="40dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tip_perentage"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:padding="8dp"
+        app:startIconDrawable="@drawable/percent">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/tip_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/how_was_the_service"
+            android:inputType="none"
+            android:paddingStart="40dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/horizontal_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/round_tip"
+            android:text="@string/round_up_tip"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/round_up_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end|center"/>
+
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/tip_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/tip_amount"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:layout_marginTop="100dp"
+        android:textStyle="bold"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
