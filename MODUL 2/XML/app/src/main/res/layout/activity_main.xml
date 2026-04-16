@@ -34,7 +34,7 @@
                 android:hint="@string/bill_amount"
                 android:maxLines="1"
                 android:inputType="number"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
