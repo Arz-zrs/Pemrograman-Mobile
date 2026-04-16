@@ -44,6 +44,8 @@ class MainActivity : AppCompatActivity() {
 
         tipOptions.setOnItemClickListener { _, _, _, _ -> calculateTip() }
         roundUpSwitch.setOnCheckedChangeListener { _, _ -> calculateTip() }
+
+        calculateTip()
     }
 
     private fun calculateTip() {
