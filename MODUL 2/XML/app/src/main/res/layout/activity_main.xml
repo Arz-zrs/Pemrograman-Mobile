@@ -8,13 +8,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="40dp"
+        android:gravity="center_vertical"
         tools:context=".MainActivity">
 
         <TextView
             android:id="@+id/calculate_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="16dp"
             android:text="@string/calculate_tip"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -23,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:padding="8dp"
+            android:padding="16dp"
             app:startIconDrawable="@drawable/money">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -43,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:padding="8dp"
+        android:padding="16dp"
         app:startIconDrawable="@drawable/percent">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -51,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/how_was_the_service"
-            android:inputType="none"/>
+            android:inputType="none"
+            android:focusableInTouchMode="false"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="0dp"
@@ -73,7 +75,7 @@
             android:id="@+id/round_up_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end|center"/>
+            android:gravity="center"/>
 
     </LinearLayout>
 
@@ -83,7 +85,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tip_amount"
         android:layout_gravity="center"
-        android:textSize="25sp"
+        android:textSize="35sp"
         android:layout_marginTop="100dp"
         android:textStyle="bold"/>
     </LinearLayout>
