@@ -33,8 +33,7 @@
                 android:hint="@string/bill_amount"
                 android:maxLines="1"
                 android:inputType="number"
-                android:imeOptions="actionNext"
-                android:paddingStart="40dp"/>
+                android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,8 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/how_was_the_service"
-            android:inputType="none"
-            android:paddingStart="40dp"/>
+            android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,5 +86,4 @@
         android:textSize="25sp"
         android:layout_marginTop="100dp"
         android:textStyle="bold"/>
-
     </LinearLayout>

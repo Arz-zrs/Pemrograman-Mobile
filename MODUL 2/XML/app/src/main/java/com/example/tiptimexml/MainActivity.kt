@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         )
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, tipList)
         tipOptions.setAdapter(adapter)
+        tipOptions.setText(tipList[0], false)
 
         tipOptions.setOnItemClickListener { _, _, _, _ -> calculateTip() }
         roundUpSwitch.setOnCheckedChangeListener { _, _ -> calculateTip() }
