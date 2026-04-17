@@ -96,7 +96,7 @@ fun TipTimeLayout() {
             leadingIcon = R.drawable.money,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             ),
             value = amountInput,
             onValueChanged = { amountInput = it },
