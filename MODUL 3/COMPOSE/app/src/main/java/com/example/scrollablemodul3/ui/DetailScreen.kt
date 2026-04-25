@@ -3,8 +3,6 @@ package com.example.scrollablemodul3.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,9 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -28,8 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,38 +70,30 @@ fun DetailScreen(
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = stringResource(id = item.titleResourceId),
-                    style = MaterialTheme.typography.headlineLarge
+                    style = MaterialTheme.typography.headlineMedium
                 )
                 Text(
                     text = stringResource(id = item.subtitleResourceId),
                     style = MaterialTheme.typography.headlineSmall
                 )
-                Text(
-                    text = stringResource(id = item.descriptionResourceId),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Text(
-                    text = stringResource(id = item.detailResourceId),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier.padding(16.dp),
-                    colors = ButtonColors(
-                        containerColor = Color(3, 169, 244),
-                        contentColor = Color.White,
-                        disabledContainerColor = Color(3, 169, 244),
-                        disabledContentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(2.dp, Color.Blue)
-                )
-                { Text(text = stringResource(R.string.steam_button)) }
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    border = BorderStroke(1.dp, Color.Black)
+                ) {
+                    Column(modifier = Modifier.padding(8.dp)) {
+                        Text(
+                            text = stringResource(id = item.descriptionResourceId),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = stringResource(id = item.detailResourceId),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
             }
         }
     }
@@ -120,12 +105,12 @@ fun DetailScreenPreview() {
     DetailScreen(
         item = ScrollableData(
             id = 1,
-            titleResourceId = R.string.item1,
-            subtitleResourceId = R.string.item1_sub,
-            descriptionResourceId = R.string.item1_desc,
-            detailResourceId = R.string.item1_detail,
-            imageResourceId = R.drawable.crosscode,
-            steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
+            titleResourceId = R.string.item5,
+            subtitleResourceId = R.string.item5_sub,
+            descriptionResourceId = R.string.item5_desc,
+            detailResourceId = R.string.item5_detail,
+            imageResourceId = R.drawable.sekiro,
+            steamUrl = "https://store.steampowered.com/app/1091500/Sekiro_Shadows_Die_Twice/"
         ),
         modifier = Modifier,
         onBackClick = {}
