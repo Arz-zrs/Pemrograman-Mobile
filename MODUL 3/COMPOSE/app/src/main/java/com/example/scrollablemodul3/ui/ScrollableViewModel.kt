@@ -11,24 +11,20 @@ class ScrollableViewModel : ViewModel() {
     val uiState: StateFlow<ScrollableUiState> = _uiState.asStateFlow()
 
     init {
-        loadScrollable()
-    }
-
-    fun loadScrollable(){
         val items = DataSource().loadItems()
         _uiState.value = ScrollableUiState(
             list = items,
-            currentScrollable = items.first(),
             currentScrollableIndex = 0
         )
     }
 
     fun updateCurrentScrollable(index: Int) {
-        val items = _uiState.value.list
-        _uiState.value = ScrollableUiState(
-            list = items,
-            currentScrollable = items[index],
+        _uiState.value = _uiState.value.copy(
             currentScrollableIndex = index
         )
+    }
+
+    fun updateLocale(locale: Any) {
+        TODO("Not yet implemented")
     }
 }
