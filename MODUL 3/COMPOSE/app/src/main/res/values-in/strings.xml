@@ -41,4 +41,5 @@
     <string name="back_button">Kembali</string>
     <string name="exit_button">Keluar</string>
     <string name="setting_button">Pengaturan</string>
+    <string name="steam_button">Halaman Steam</string>
 </resources>

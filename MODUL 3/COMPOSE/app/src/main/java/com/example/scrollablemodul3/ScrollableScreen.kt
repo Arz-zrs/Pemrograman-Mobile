@@ -79,7 +79,8 @@ fun ScrollableApp(
                 viewModel.updateCurrentScrollable(index)
                 DetailScreen(
                     item = uiState.list[index],
-                    modifier = Modifier
+                    modifier = Modifier,
+                    onBackClick = { navController.navigateUp() }
                 )
             }
             composable(route = ScrollableScreen.Settings.name) {

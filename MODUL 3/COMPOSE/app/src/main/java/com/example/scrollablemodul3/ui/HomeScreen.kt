@@ -11,7 +11,7 @@ fun HomeScreen(
     uiState: ScrollableUiState,
     onDetailClick: (Int) -> Unit,
     onIntentClick: (String) -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ){
     LazyColumn(modifier = modifier) {
         item {
