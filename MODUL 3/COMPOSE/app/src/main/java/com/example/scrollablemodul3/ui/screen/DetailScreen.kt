@@ -1,4 +1,4 @@
-package com.example.scrollablemodul3.ui
+package com.example.scrollablemodul3.ui.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

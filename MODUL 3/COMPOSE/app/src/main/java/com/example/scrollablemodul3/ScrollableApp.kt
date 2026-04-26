@@ -1,36 +1,24 @@
 package com.example.scrollablemodul3
 
+import android.app.Activity
 import android.content.Intent
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.scrollablemodul3.ui.DetailScreen
-import com.example.scrollablemodul3.ui.HomeScreen
+import com.example.scrollablemodul3.ui.screen.DetailScreen
+import com.example.scrollablemodul3.ui.screen.HomeScreen
 import com.example.scrollablemodul3.ui.ScrollableViewModel
-import com.example.scrollablemodul3.ui.SettingScreen
+import com.example.scrollablemodul3.ui.screen.SettingScreen
 
 enum class ScrollableScreen { Home, Details, Settings }
 
@@ -52,6 +40,7 @@ fun ScrollableApp(
             startDestination = ScrollableScreen.Home.name
     ) {
         composable(route = ScrollableScreen.Home.name) {
+            val activity = context as Activity
             HomeScreen(
                 uiState = uiState,
                 onDetailClick = { index ->
@@ -60,7 +49,8 @@ fun ScrollableApp(
                 onIntentClick = { url ->
                     context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
                 },
-                modifier = Modifier
+                onSettingsClick = { navController.navigate(ScrollableScreen.Settings.name) },
+                onExit = { activity.finish() }
                 )
         }
         composable(route = "${ScrollableScreen.Details.name}/{itemId}") { backStackEntry ->
@@ -78,7 +68,8 @@ fun ScrollableApp(
             SettingScreen(
                 modifier = Modifier,
                 onBackClick = { navController.navigateUp() },
-                onLocaleChange = { locale -> viewModel.updateLocale(locale) }
+                onLocaleChange = { locale -> viewModel.updateLocale(locale) },
+                selectedLocale = uiState.selectedLocale
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.example.scrollablemodul3.ui
+package com.example.scrollablemodul3.ui.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -7,14 +7,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
@@ -30,22 +31,19 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.scrollablemodul3.R
-import com.example.scrollablemodul3.ScrollableScreen
 import com.example.scrollablemodul3.model.ScrollableData
+import com.example.scrollablemodul3.ui.ScrollableUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeAppBar(
-    currentScreen: ScrollableScreen,
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
-    onLocaleChange: (String) -> Unit,
+    onSettingClick: () -> Unit,
     onExit: () -> Unit
 ) {
     TopAppBar(
@@ -53,31 +51,19 @@ fun HomeAppBar(
             Text(stringResource(R.string.head_title))
         },
         navigationIcon = {
-            if (canNavigateBack) {
-                IconButton(onClick = navigateUp) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back_button)
-                    )
-                }
-            }
-            else {
-                IconButton(onClick = onExit) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                        contentDescription = stringResource(R.string.exit_button)
-                    )
-                }
+            IconButton(onClick = onExit) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                    contentDescription = stringResource(R.string.back_button)
+                )
             }
         },
         actions = {
-            if (currentScreen == ScrollableScreen.Home) {
-                IconButton(onClick = { onLocaleChange("en") }) {
-                    Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = stringResource(R.string.setting_button)
-                    )
-                }
+            IconButton(onClick =  onSettingClick ) {
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = stringResource(R.string.setting_button)
+                )
             }
         }
     )
@@ -87,16 +73,15 @@ fun HomeScreen(
     uiState: ScrollableUiState,
     onDetailClick: (Int) -> Unit,
     onIntentClick: (String) -> Unit,
+    onSettingsClick: () -> Unit,
+    onExit: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Scaffold(
         topBar = {
             HomeAppBar(
-                currentScreen = ScrollableScreen.Home,
-                canNavigateBack = false,
-                navigateUp = {},
-                onLocaleChange = {},
-                onExit = {}
+                onSettingClick = onSettingsClick,
+                onExit = onExit
             )
         }
     ) { innerPadding ->
@@ -133,17 +118,23 @@ fun ItemCard(
             .fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        border = BorderStroke(1.dp, Color.DarkGray)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
                 painter = painterResource(id = item.imageResourceId),
-                contentDescription = null,
+                contentDescription = stringResource(id = item.titleResourceId),
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .padding(end = 16.dp, top = 16.dp)
+                    .width(100.dp)
+                    .height(140.dp)
                     .clip(RoundedCornerShape(16.dp))
             )
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .weight(1f)
+            ) {
                 Text(
                     text = stringResource(id = item.titleResourceId),
                     style = MaterialTheme.typography.headlineMedium
@@ -184,15 +175,17 @@ fun ItemCard(
 
 @Composable
 fun CarouselCard(
-    item: ScrollableData
+    item: ScrollableData,
+    modifier: Modifier = Modifier
 ){
     Card(
-        modifier = Modifier
-            .padding(8.dp),
+        modifier = modifier.padding(8.dp),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        border = BorderStroke(1.dp, Color.DarkGray),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
     ) {
         Row(
             modifier = Modifier
@@ -201,12 +194,14 @@ fun CarouselCard(
         ) {
             Image(
                 painter = painterResource(id = item.imageResourceId),
-                contentDescription = null,
+                contentDescription = stringResource(id = item.titleResourceId),
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .padding(end = 16.dp)
+                    .width(100.dp)
+                    .height(140.dp)
                     .clip(RoundedCornerShape(16.dp))
             )
-            Column {
+            Column(modifier = Modifier.padding(start = 16.dp)) {
                 Text(
                     text = stringResource(id = item.titleResourceId),
                     style = MaterialTheme.typography.headlineMedium
@@ -221,32 +216,28 @@ fun CarouselCard(
                 )}
         }
     }
+
 }
 
 @Composable
 fun ItemCarousel(
     items: List<ScrollableData>,
-    modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
-    Card(
-        modifier = modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-        border = BorderStroke(1.dp, Color.Black)
+    LazyRow(
+        state = listState,
+        flingBehavior = rememberSnapFlingBehavior(listState)
     ) {
-        LazyRow(
-            state = listState,
-            flingBehavior = rememberSnapFlingBehavior(listState)
-        ) {
-            itemsIndexed(items) { _, item ->
-                CarouselCard(item = item)
-            }
+        itemsIndexed(items) { _, item ->
+            CarouselCard(
+                item = item,
+                modifier = Modifier.fillParentMaxWidth()
+            )
         }
     }
 }
 
-@Preview
+@Preview(device = "spec:parent=pixel_5,orientation=landscape")
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
@@ -261,10 +252,48 @@ fun HomeScreenPreview() {
                     imageResourceId = R.drawable.crosscode,
                     steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
                 ),
+                ScrollableData(
+                    id = 2,
+                    titleResourceId = R.string.item2,
+                    subtitleResourceId = R.string.item2_sub,
+                    descriptionResourceId = R.string.item2_desc,
+                    detailResourceId = R.string.item2_detail,
+                    imageResourceId = R.drawable.hades2,
+                    steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
+                ),
+                ScrollableData(
+                    id = 3,
+                    titleResourceId = R.string.item3,
+                    subtitleResourceId = R.string.item3_sub,
+                    descriptionResourceId = R.string.item3_desc,
+                    detailResourceId = R.string.item3_detail,
+                    imageResourceId = R.drawable.nms,
+                    steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
+                ),
+                ScrollableData(
+                    id = 4,
+                    titleResourceId = R.string.item4,
+                    subtitleResourceId = R.string.item4_sub,
+                    descriptionResourceId = R.string.item4_desc,
+                    detailResourceId = R.string.item4_detail,
+                    imageResourceId = R.drawable.coe33,
+                    steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
+                ),
+                ScrollableData(
+                    id = 5,
+                    titleResourceId = R.string.item5,
+                    subtitleResourceId = R.string.item5_sub,
+                    descriptionResourceId = R.string.item5_desc,
+                    detailResourceId = R.string.item5_detail,
+                    imageResourceId = R.drawable.sekiro,
+                    steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
+                ),
             )
-        )
-    ,
-    onDetailClick = {},
-    onIntentClick = {}
+        ),
+
+        onDetailClick = {},
+        onIntentClick = {},
+        onSettingsClick = {},
+        onExit = {}
     )
 }

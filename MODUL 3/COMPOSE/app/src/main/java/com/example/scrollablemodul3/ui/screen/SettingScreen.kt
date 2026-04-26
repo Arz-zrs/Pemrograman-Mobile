@@ -1,4 +1,4 @@
-package com.example.scrollablemodul3.ui
+package com.example.scrollablemodul3.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +28,8 @@ import com.example.scrollablemodul3.R
 fun SettingScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    onLocaleChange: (String) -> Unit
+    onLocaleChange: (String) -> Unit,
+    selectedLocale: String
 ){
     Scaffold(
         topBar = {
@@ -63,7 +64,7 @@ fun SettingScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = true,
+                    selected = selectedLocale == "en",
                     onClick = { onLocaleChange("en") }
                 )
                 Text(text = "English")
@@ -72,7 +73,7 @@ fun SettingScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                selected = false,
+                selected = selectedLocale == "id",
                 onClick = { onLocaleChange("id") }
             )
                 Text(text = "Indonesia")}
@@ -86,6 +87,7 @@ fun SettingScreenLayout(){
     SettingScreen(
         modifier = Modifier,
         onBackClick = {},
-        onLocaleChange = {}
+        onLocaleChange = {},
+        selectedLocale = "en"
     )
 }
