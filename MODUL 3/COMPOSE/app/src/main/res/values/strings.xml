@@ -4,37 +4,53 @@
 
     <string name="item1">CrossCode</string>
     <string name="item1_sub">Playtime: 79.8 hours</string>
-    <string name="item1_desc">Description for item 1</string>
+    <string name="item1_desc">Action-Adventure RPG</string>
     <string name="item1_detail">
-        Detailed Description for item 1
+        A retro-inspired 2D Action RPG set in the distant future.
+        CrossCode combines 16-bit SNES-style graphics with butter-smooth physics,
+        a fast-paced combat system, and engaging puzzle mechanics,
+        served with a gripping sci-fi story.
     </string>
 
     <string name="item2">Hades II</string>
     <string name="item2_sub">Playtime: 71.3 hours</string>
-    <string name="item2_desc">Description for item 2</string>
+    <string name="item2_desc">Action Roguelike, Hack and Slash</string>
     <string name="item2_detail">
-        Detailed Description for item 2
+        Explore the Underworld using dark sorcery to take on the Titan of Time.
+        Battle beyond the Underworld using dark sorcery to take on the Titan of Time
+        in this bewitching sequel to the award-winning rogue-like dungeon crawler.
     </string>
 
     <string name="item3">No Man\'s Sky</string>
     <string name="item3_sub">Playtime: 61.9 hours</string>
-    <string name="item3_desc">Description for item 3</string>
+    <string name="item3_desc">Open World Exploration, Adventure</string>
     <string name="item3_detail">
-        Detailed Description for item 3
+        Every star is the light of a distant sun, each orbited by planets filled with life,
+        and you can go to any of them you choose. Fly smoothly from deep space to planetary surfaces,
+        with no loading screens, and no limits. In this infinite procedurally generated universe,
+        you'll discover places and creatures that no other players have seen before,
+        and perhaps never will again.
     </string>
 
     <string name="item4">Clair Obscur: Expedition 33</string>
     <string name="item4_sub">Playtime: 50.5 hours</string>
-    <string name="item4_desc">Description for item 4</string>
+    <string name="item4_desc">Turn-Based Action RPG</string>
     <string name="item4_detail">
-        Detailed Description for item 4
+        Lead the members of Expedition 33 on their quest to destroy the Paintress
+        so that she can never paint death again. Explore a world of wonders
+        inspired by Belle Époque France and battle unique enemies in this turn-based RPG
+        with real-time mechanics
     </string>
 
     <string name="item5">Sekiro: Shadows Die Twice</string>
     <string name="item5_sub">Playtime: 36.7 hours</string>
-    <string name="item5_desc">Description for item 5</string>
+    <string name="item5_desc">Action-Adventure RPG</string>
     <string name="item5_detail">
-        Detailed Description for item 5
+        Carve your own clever path to vengeance as you come face-to-face
+        with larger than life foes in FromSoftware\'s dark and twisted adventure
+        set in feudal Japan. Unleash an arsenal of deadly prosthetic tools and ninja abilities,
+        while blending stealth, vertical traversal, and visceral combat. Survive a relentless and
+        bloody confrontation on a quest to restore your honor and save the one you\'re sworn to protect
     </string>
 
     <string name="back_button">Back</string>

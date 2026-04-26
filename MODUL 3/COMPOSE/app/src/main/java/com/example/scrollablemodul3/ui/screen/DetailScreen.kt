@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.scrollablemodul3.R
@@ -78,19 +79,20 @@ fun DetailScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+                        .padding(top = 8.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     shape = RoundedCornerShape(8.dp),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
+                    Column(modifier = Modifier.padding(8.dp)) {
                         Text(
                             text = stringResource(id = item.descriptionResourceId),
                             style = MaterialTheme.typography.titleLarge
                         )
                         Text(
                             text = stringResource(id = item.detailResourceId),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyMedium,
+                            textAlign = TextAlign.Justify
                         )
                     }
                 }
@@ -99,17 +101,17 @@ fun DetailScreen(
     }
 }
 
-@Preview
+@Preview(locale = "in")
 @Composable
 fun DetailScreenPreview() {
     DetailScreen(
         item = ScrollableData(
-            id = 1,
-            titleResourceId = R.string.item5,
-            subtitleResourceId = R.string.item5_sub,
-            descriptionResourceId = R.string.item5_desc,
-            detailResourceId = R.string.item5_detail,
-            imageResourceId = R.drawable.sekiro,
+            id = 3,
+            titleResourceId = R.string.item3,
+            subtitleResourceId = R.string.item3_sub,
+            descriptionResourceId = R.string.item3_desc,
+            detailResourceId = R.string.item3_detail,
+            imageResourceId = R.drawable.nms,
             steamUrl = "https://store.steampowered.com/app/1091500/Sekiro_Shadows_Die_Twice/"
         ),
         modifier = Modifier,
