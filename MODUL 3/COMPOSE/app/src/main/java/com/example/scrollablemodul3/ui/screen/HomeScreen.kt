@@ -34,6 +34,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.scrollablemodul3.R
@@ -137,7 +139,7 @@ fun ItemCard(
             ) {
                 Text(
                     text = stringResource(id = item.titleResourceId),
-                    style = MaterialTheme.typography.headlineMedium
+                    style = MaterialTheme.typography.headlineSmall
                 )
                 Text(
                     text = stringResource(id = item.subtitleResourceId),
@@ -158,7 +160,7 @@ fun ItemCard(
                         Text(
                             text = stringResource(R.string.steam_button),
                             maxLines = 1,
-                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                            style = MaterialTheme.typography.bodySmall
                         )
                     }
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -168,7 +170,7 @@ fun ItemCard(
                         Text(
                             text = stringResource(R.string.detail_button),
                             maxLines = 1,
-                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                            style = MaterialTheme.typography.bodySmall
                         )
                     }
                 }
@@ -208,7 +210,7 @@ fun CarouselCard(
             Column(modifier = Modifier.padding(start = 16.dp)) {
                 Text(
                     text = stringResource(id = item.titleResourceId),
-                    style = MaterialTheme.typography.headlineMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Text(
                     text = stringResource(id = item.subtitleResourceId),
@@ -217,7 +219,15 @@ fun CarouselCard(
                 Text(
                     text = stringResource(id = item.descriptionResourceId),
                     style = MaterialTheme.typography.bodyMedium
-                )}
+                )
+                Text(
+                    text = stringResource(id = item.detailResourceId),
+                    style = MaterialTheme.typography.bodySmall,
+                    maxLines = 4,
+                    textAlign = TextAlign.Justify,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 
@@ -241,7 +251,7 @@ fun ItemCarousel(
     }
 }
 
-@Preview(device = "id:pixel_5")
+@Preview
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
