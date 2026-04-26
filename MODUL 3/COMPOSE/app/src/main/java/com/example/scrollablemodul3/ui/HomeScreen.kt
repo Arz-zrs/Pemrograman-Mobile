@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.scrollablemodul3.model.ScrollableData
 
 @Composable
@@ -41,4 +42,14 @@ fun ItemCard(
 @Composable
 fun ItemCarousel(items: List<ScrollableData>) {
     TODO("Not yet implemented")
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen(
+        uiState = ScrollableUiState(),
+        onDetailClick = {},
+        onIntentClick = {}
+    )
 }

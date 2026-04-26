@@ -1,10 +1,19 @@
 package com.example.scrollablemodul3.ui
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import com.example.scrollablemodul3.model.DataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import androidx.core.net.toUri
 
 class ScrollableViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ScrollableUiState())
@@ -25,6 +34,18 @@ class ScrollableViewModel : ViewModel() {
     }
 
     fun updateLocale(locale: Any) {
-        TODO("Not yet implemented")
+        _uiState.value = _uiState.value.copy(
+            selectedLocale = locale.toString(),
+        )
+        val appLocale = LocaleListCompat.forLanguageTags(locale.toString())
+        AppCompatDelegate.setApplicationLocales(appLocale)
+    }
+
+    fun openUrl(url: String, context: Context) {
+        _uiState.value = _uiState.value.copy(
+            selectedUrl = url
+        )
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+        context.startActivity(intent)
     }
 }

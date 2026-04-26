@@ -47,11 +47,10 @@ fun ScrollableApp(
 
     Scaffold(
         topBar = {
-            // TODO: Create Composable Header with exit and language Icon options
             ScrollableAppBar(
-                currentScreen = ScrollableScreen.Home,
-                canNavigateBack = false,
-                navigateUp = { /*TODO*/ },
+                currentScreen = currentScreen,
+                canNavigateBack = currentScreen != ScrollableScreen.Home,
+                navigateUp = { navController.navigateUp() },
                 onLocaleChange = { locale -> viewModel.updateLocale(locale) },
                 onExit = { /*TODO*/ }
             )
@@ -70,7 +69,7 @@ fun ScrollableApp(
                     onDetailClick = { index ->
                         navController.navigate("${ScrollableScreen.Details.name}/$index")
                     },
-                    onIntentClick = { url -> /*TODO*/ },
+                    onIntentClick = { url -> viewModel.openUrl(url, navController.context) },
                     modifier = Modifier
                 )
             }
@@ -84,7 +83,11 @@ fun ScrollableApp(
                 )
             }
             composable(route = ScrollableScreen.Settings.name) {
-                SettingScreen()
+                SettingScreen(
+                    modifier = Modifier,
+                    onBackClick = { navController.navigateUp() },
+                    onLocaleChange = { locale -> viewModel.updateLocale(locale) }
+                )
             }
         }
     }

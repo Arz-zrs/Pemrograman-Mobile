@@ -41,4 +41,6 @@
     <string name="exit_button">Exit</string>
     <string name="setting_button">Settings</string>
     <string name="steam_button">Steam Page</string>
+
+    <string name="setting_header">Language</string>
 </resources>
