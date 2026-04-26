@@ -45,50 +45,39 @@ fun ScrollableApp(
         backStackEntry?.destination?.route ?: ScrollableScreen.Home.name
     )
 
-    Scaffold(
-        topBar = {
-            ScrollableAppBar(
-                currentScreen = currentScreen,
-                canNavigateBack = currentScreen != ScrollableScreen.Home,
-                navigateUp = { navController.navigateUp() },
-                onLocaleChange = { locale -> viewModel.updateLocale(locale) },
-                onExit = { /*TODO*/ }
+    val uiState by viewModel.uiState.collectAsState()
+
+    NavHost(
+            navController = navController,
+            startDestination = ScrollableScreen.Home.name
+    ) {
+        composable(route = ScrollableScreen.Home.name) {
+            HomeScreen(
+                uiState = uiState,
+                onDetailClick = { index ->
+                    navController.navigate("${ScrollableScreen.Details.name}/$index")
+                },
+                onIntentClick = {
+                    url -> viewModel.openUrl(url, navController.context)
+                },
+                modifier = Modifier
+                )
+        }
+        composable(route = "${ScrollableScreen.Details.name}/{itemId}") { backStackEntry ->
+            val index = backStackEntry.arguments?.getString("itemId")?.toIntOrNull() ?: 0
+            viewModel.updateCurrentScrollable(index)
+            DetailScreen(
+                item = uiState.list[index],
+                modifier = Modifier,
+                onBackClick = { navController.navigateUp() }
             )
         }
-    ) { innerPadding ->
-        val uiState by viewModel.uiState.collectAsState()
-
-        NavHost(
-            navController = navController,
-            startDestination = ScrollableScreen.Home.name,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(route = ScrollableScreen.Home.name) {
-                HomeScreen(
-                    uiState = uiState,
-                    onDetailClick = { index ->
-                        navController.navigate("${ScrollableScreen.Details.name}/$index")
-                    },
-                    onIntentClick = { url -> viewModel.openUrl(url, navController.context) },
-                    modifier = Modifier
-                )
-            }
-            composable(route = "${ScrollableScreen.Details.name}/{itemId}") { backStackEntry ->
-                val index = backStackEntry.arguments?.getString("itemId")?.toIntOrNull() ?: 0
-                viewModel.updateCurrentScrollable(index)
-                DetailScreen(
-                    item = uiState.list[index],
-                    modifier = Modifier,
-                    onBackClick = { navController.navigateUp() }
-                )
-            }
-            composable(route = ScrollableScreen.Settings.name) {
-                SettingScreen(
-                    modifier = Modifier,
-                    onBackClick = { navController.navigateUp() },
-                    onLocaleChange = { locale -> viewModel.updateLocale(locale) }
-                )
-            }
+        composable(route = ScrollableScreen.Settings.name) {
+            SettingScreen(
+                modifier = Modifier,
+                onBackClick = { navController.navigateUp() },
+                onLocaleChange = { locale -> viewModel.updateLocale(locale) }
+            )
         }
     }
 }
