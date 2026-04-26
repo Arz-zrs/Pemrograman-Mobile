@@ -42,7 +42,7 @@
     <string name="exit_button">Keluar</string>
     <string name="setting_button">Pengaturan</string>
     <string name="detail_button">Rincian</string>
-    <string name="steam_button">Halaman Steam</string>
+    <string name="steam_button">Buka Steam</string>
 
     <string name="setting_header">Bahasa</string>
 </resources>

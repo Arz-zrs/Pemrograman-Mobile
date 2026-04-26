@@ -55,11 +55,12 @@ fun ScrollableApp(
         }
         composable(route = "${ScrollableScreen.Details.name}/{itemId}") { backStackEntry ->
             val index = backStackEntry.arguments?.getString("itemId")?.toIntOrNull() ?: 0
+            val item = uiState.list.getOrNull(index) ?: uiState.list.first()
             LaunchedEffect(index){
                 viewModel.updateCurrentScrollable(index)
             }
             DetailScreen(
-                item = uiState.list[index],
+                item = item,
                 modifier = Modifier,
                 onBackClick = { navController.navigateUp() }
             )

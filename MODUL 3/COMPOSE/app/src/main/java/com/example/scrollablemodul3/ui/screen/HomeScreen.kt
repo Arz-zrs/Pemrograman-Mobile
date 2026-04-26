@@ -17,7 +17,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -61,7 +61,7 @@ fun HomeAppBar(
         actions = {
             IconButton(onClick =  onSettingClick ) {
                 Icon(
-                    imageVector = Icons.Default.MoreVert,
+                    imageVector = Icons.Default.Settings,
                     contentDescription = stringResource(R.string.setting_button)
                 )
             }
@@ -148,14 +148,17 @@ fun ItemCard(
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                Row(modifier = Modifier.padding(top = 24.dp)
+                Row(
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .fillMaxWidth()
                 ) {
                     Button(
-                        onClick = onIntentClick
-                    ) {
+                        onClick = onIntentClick) {
                         Text(
                             text = stringResource(R.string.steam_button),
-                            fontSize = MaterialTheme.typography.bodySmall.fontSize
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                         )
                     }
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -164,7 +167,8 @@ fun ItemCard(
                     ) {
                         Text(
                             text = stringResource(R.string.detail_button),
-                            fontSize = MaterialTheme.typography.bodySmall.fontSize
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -237,7 +241,7 @@ fun ItemCarousel(
     }
 }
 
-@Preview(device = "spec:parent=pixel_5,orientation=landscape")
+@Preview(device = "id:pixel_5")
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
