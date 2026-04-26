@@ -33,19 +33,11 @@ class ScrollableViewModel : ViewModel() {
         )
     }
 
-    fun updateLocale(locale: Any) {
+    fun updateLocale(locale: String) {
         _uiState.value = _uiState.value.copy(
-            selectedLocale = locale.toString(),
+            selectedLocale = locale,
         )
-        val appLocale = LocaleListCompat.forLanguageTags(locale.toString())
+        val appLocale = LocaleListCompat.forLanguageTags(locale)
         AppCompatDelegate.setApplicationLocales(appLocale)
-    }
-
-    fun openUrl(url: String, context: Context) {
-        _uiState.value = _uiState.value.copy(
-            selectedUrl = url
-        )
-        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-        context.startActivity(intent)
     }
 }
