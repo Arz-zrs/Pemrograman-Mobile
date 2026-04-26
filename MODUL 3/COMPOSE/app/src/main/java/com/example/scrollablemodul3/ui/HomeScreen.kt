@@ -102,7 +102,7 @@ fun HomeScreen(
     ) { innerPadding ->
         LazyColumn(modifier = modifier
             .padding(innerPadding)
-            .padding(start = 16.dp)
+            .padding(start = 8.dp)
         ) {
             item {
                 ItemCarousel(
@@ -128,9 +128,12 @@ fun ItemCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        border = BorderStroke(1.dp, Color.DarkGray)
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
@@ -156,12 +159,22 @@ fun ItemCard(
 
                 Row(modifier = Modifier.padding(top = 24.dp)
                 ) {
-                    Button(onClick = onIntentClick) {
-                        Text(stringResource(R.string.steam_button))
+                    Button(
+                        onClick = onIntentClick
+                    ) {
+                        Text(
+                            text = stringResource(R.string.steam_button),
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize
+                        )
                     }
                     Spacer(modifier = Modifier.padding(8.dp))
-                    Button(onClick = onDetailClick) {
-                        Text(stringResource(R.string.detail_button))
+                    Button(
+                        onClick = onDetailClick
+                    ) {
+                        Text(
+                            text = stringResource(R.string.detail_button),
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize
+                        )
                     }
                 }
             }
@@ -177,7 +190,9 @@ fun CarouselCard(
         modifier = Modifier
             .padding(8.dp),
         shape = MaterialTheme.shapes.medium,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        border = BorderStroke(1.dp, Color.DarkGray),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
             modifier = Modifier
@@ -215,7 +230,9 @@ fun ItemCarousel(
 ) {
     val listState = rememberLazyListState()
     Card(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
         border = BorderStroke(1.dp, Color.Black)
     ) {
         LazyRow(
@@ -223,9 +240,7 @@ fun ItemCarousel(
             flingBehavior = rememberSnapFlingBehavior(listState)
         ) {
             itemsIndexed(items) { _, item ->
-                CarouselCard(
-                    item = item
-                )
+                CarouselCard(item = item)
             }
         }
     }
