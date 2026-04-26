@@ -1,19 +1,12 @@
 package com.example.scrollablemodul3.ui
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import com.example.scrollablemodul3.model.DataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import androidx.core.net.toUri
 
 class ScrollableViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ScrollableUiState())

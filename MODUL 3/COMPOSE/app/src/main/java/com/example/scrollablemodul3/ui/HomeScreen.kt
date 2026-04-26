@@ -1,14 +1,18 @@
 package com.example.scrollablemodul3.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
@@ -25,6 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -94,7 +100,10 @@ fun HomeScreen(
             )
         }
     ) { innerPadding ->
-        LazyColumn(modifier = modifier.padding(innerPadding)) {
+        LazyColumn(modifier = modifier
+            .padding(innerPadding)
+            .padding(start = 16.dp)
+        ) {
             item {
                 ItemCarousel(
                     items = uiState.list
@@ -123,18 +132,29 @@ fun ItemCard(
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Row(modifier = modifier.padding(16.dp)) {
+        Row(modifier = Modifier.padding(16.dp)) {
             Image(
                 painter = painterResource(id = item.imageResourceId),
                 contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp)
+                modifier = Modifier
+                    .padding(end = 16.dp, top = 16.dp)
+                    .clip(RoundedCornerShape(16.dp))
             )
-            Column(modifier = modifier) {
-                Text(text = stringResource(id = item.titleResourceId))
-                Text(text = stringResource(id = item.subtitleResourceId))
+            Column {
+                Text(
+                    text = stringResource(id = item.titleResourceId),
+                    style = MaterialTheme.typography.headlineMedium
+                )
+                Text(
+                    text = stringResource(id = item.subtitleResourceId),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = stringResource(id = item.descriptionResourceId),
+                    style = MaterialTheme.typography.bodyMedium
+                )
 
-                Row(modifier = modifier
-                    .padding(top = 24.dp)
+                Row(modifier = Modifier.padding(top = 24.dp)
                 ) {
                     Button(onClick = onIntentClick) {
                         Text(stringResource(R.string.steam_button))
@@ -150,22 +170,63 @@ fun ItemCard(
 }
 
 @Composable
+fun CarouselCard(
+    item: ScrollableData
+){
+    Card(
+        modifier = Modifier
+            .padding(8.dp),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Image(
+                painter = painterResource(id = item.imageResourceId),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .clip(RoundedCornerShape(16.dp))
+            )
+            Column {
+                Text(
+                    text = stringResource(id = item.titleResourceId),
+                    style = MaterialTheme.typography.headlineMedium
+                )
+                Text(
+                    text = stringResource(id = item.subtitleResourceId),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = stringResource(id = item.descriptionResourceId),
+                    style = MaterialTheme.typography.bodyMedium
+                )}
+        }
+    }
+}
+
+@Composable
 fun ItemCarousel(
     items: List<ScrollableData>,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
-    LazyColumn(
-        modifier = modifier,
-        state = listState,
-        flingBehavior = rememberSnapFlingBehavior(listState)
+    Card(
+        modifier = modifier.padding(8.dp),
+        border = BorderStroke(1.dp, Color.Black)
     ) {
-        itemsIndexed(items) { _, item ->
-            ItemCard(
-                item = item,
-                onDetailClick = {},
-                onIntentClick = {}
-            )
+        LazyRow(
+            state = listState,
+            flingBehavior = rememberSnapFlingBehavior(listState)
+        ) {
+            itemsIndexed(items) { _, item ->
+                CarouselCard(
+                    item = item
+                )
+            }
         }
     }
 }
@@ -173,18 +234,22 @@ fun ItemCarousel(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    ItemCarousel(
-        items = listOf(
-            ScrollableData(
-                id = 1,
-                titleResourceId = R.string.item1,
-                subtitleResourceId = R.string.item1_sub,
-                descriptionResourceId = R.string.item1_desc,
-                detailResourceId = R.string.item1_detail,
-                imageResourceId = R.drawable.crosscode,
-                steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
-            ),
-        ),
-        modifier = Modifier
+    HomeScreen(
+        uiState = ScrollableUiState(
+            list = listOf(
+                ScrollableData(
+                    id = 1,
+                    titleResourceId = R.string.item1,
+                    subtitleResourceId = R.string.item1_sub,
+                    descriptionResourceId = R.string.item1_desc,
+                    detailResourceId = R.string.item1_detail,
+                    imageResourceId = R.drawable.crosscode,
+                    steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
+                ),
+            )
+        )
+    ,
+    onDetailClick = {},
+    onIntentClick = {}
     )
 }
