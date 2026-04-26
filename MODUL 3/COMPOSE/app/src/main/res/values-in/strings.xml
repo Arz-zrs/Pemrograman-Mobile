@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ScrollableModul3</string>
-    <string name="head_title">ZweiGratee\'s Steam Game of 2025</string>
 
-    <string name="item1">CrossCode</string>
     <string name="item1_sub">Waktu main: 79.8 jam</string>
-    <string name="item1_desc">Action-Adventure Indie RPG</string>
     <string name="item1_detail">
         Game RPG aksi 2D bergaya retro yang berlatar di masa depan jauh.
         CrossCode memadukan grafis bergaya SNES 16-bit dengan fisika yang mulus,
@@ -13,18 +9,14 @@
         yang disajikan dalam cerita fiksi ilmiah yang memikat.
     </string>
 
-    <string name="item2">Hades II</string>
     <string name="item2_sub">Waktu main: 71.3 jam</string>
-    <string name="item2_desc">Action Roguelike, Hack and Slash</string>
     <string name="item2_detail">
         Jelajahi Underworld dengan menggunakan sihir gelap untuk menghadapi Titan Waktu.
         Bertarunglah melewati Underworld dengan menggunakan sihir gelap untuk menghadapi
         Titan Waktu dalam sekuel memikat dari game dungeon crawler rogue-like pemenang penghargaan ini.
     </string>
 
-    <string name="item3">No Man\'s Sky</string>
     <string name="item3_sub">Waktu main: 61.9 jam</string>
-    <string name="item3_desc">Open World Exploration, Adventure</string>
     <string name="item3_detail">
         Tiap bintang adalah cahaya dari matahari yang jauh, diorbit oleh planet-planet
         penuh kehidupan, dan kamu bisa mengunjungi planet mana pun yang kamu inginkan.
@@ -35,9 +27,7 @@
         dan mungkin tidak pernah ditemukan lagi.
     </string>
 
-    <string name="item4">Clair Obscur: Expedition 33</string>
     <string name="item4_sub">Waktu main: 50.5 jam</string>
-    <string name="item4_desc">Turn-Based Action RPG</string>
     <string name="item4_detail">
         Pimpin para anggota Ekspedisi 33 dalam misi mereka untuk menghancurkan
         Sang Pelukis agar ia tak bisa lagi melukis kematian lagi.
@@ -45,9 +35,7 @@
         lawan musuh-musuh unik dalam RPG Turn-Based dengan mekanisme Real-Time ini
     </string>
 
-    <string name="item5">Sekiro: Shadows Die Twice</string>
     <string name="item5_sub">Waktu main: 36.7 jam</string>
-    <string name="item5_desc">Action-Adventure RPG</string>
     <string name="item5_detail">
         Aturlah balas dendammu saat berhadapan langsung dengan musuh-musuh
         dahsyat dalam petualangan penuh liku-liku dari FromSoftware
