@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -22,11 +21,6 @@ import com.example.scrollablemodul3.ui.screen.SettingScreen
 
 enum class ScrollableScreen { Home, Details, Settings }
 
-@Preview(showBackground = true)
-@Composable
-fun ScrollableAppPreview() {
-    ScrollableApp()
-}
 @Composable
 fun ScrollableApp(
     viewModel: ScrollableViewModel = viewModel(),
