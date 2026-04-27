@@ -73,8 +73,8 @@ fun SettingScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                selected = selectedLocale == "id",
-                onClick = { onLocaleChange("id") }
+                selected = selectedLocale == "in",
+                onClick = { onLocaleChange("in") }
             )
                 Text(text = "Indonesia")}
         }

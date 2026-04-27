@@ -14,8 +14,7 @@ class ScrollableViewModel : ViewModel() {
 
     init {
         val items = DataSource().loadItems()
-        val currentLocale = AppCompatDelegate.getApplicationLocales().get(0)?.language
-            ?.let { if (it == "in") "id" else it } ?: "en"
+        val currentLocale = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "en"
         _uiState.value = ScrollableUiState(
             list = items,
             currentScrollableIndex = 0,
