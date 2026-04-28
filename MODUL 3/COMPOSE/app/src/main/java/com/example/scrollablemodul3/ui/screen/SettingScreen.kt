@@ -63,7 +63,8 @@ fun SettingScreen(
             )
 
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 RadioButton(
                     selected = selectedLocale == "en",
@@ -72,7 +73,8 @@ fun SettingScreen(
                 Text(text = "English")
             }
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 RadioButton(
                 selected = selectedLocale == "in",
