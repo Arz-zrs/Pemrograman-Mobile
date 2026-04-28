@@ -152,7 +152,8 @@ fun ItemCard(
                 Row(
                     modifier = Modifier
                         .padding(top = 24.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     Button(
                         onClick = onIntentClick) {
