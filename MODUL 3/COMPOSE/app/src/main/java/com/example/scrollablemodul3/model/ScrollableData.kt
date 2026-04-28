@@ -10,5 +10,6 @@ data class ScrollableData(
     @StringRes val descriptionResourceId: Int,
     @StringRes val detailResourceId: Int,
     @DrawableRes val imageResourceId: Int,
+    @DrawableRes val detailImageResourceId: Int,
     val steamUrl: String
 )

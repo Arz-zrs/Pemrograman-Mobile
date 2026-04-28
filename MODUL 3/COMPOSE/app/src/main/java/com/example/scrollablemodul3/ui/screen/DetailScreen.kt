@@ -112,6 +112,7 @@ fun DetailScreenPreview() {
             descriptionResourceId = R.string.item3_desc,
             detailResourceId = R.string.item3_detail,
             imageResourceId = R.drawable.nms,
+            detailImageResourceId = R.drawable.nms_detail,
             steamUrl = "https://store.steampowered.com/app/1091500/Sekiro_Shadows_Die_Twice/"
         ),
         modifier = Modifier,

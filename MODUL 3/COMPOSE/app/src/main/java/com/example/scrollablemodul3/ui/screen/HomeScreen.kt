@@ -3,6 +3,7 @@ package com.example.scrollablemodul3.ui.screen
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,8 +35,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.scrollablemodul3.R
@@ -196,38 +195,18 @@ fun CarouselCard(
         Row(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Image(
-                painter = painterResource(id = item.imageResourceId),
+                painter = painterResource(id = item.detailImageResourceId),
                 contentDescription = stringResource(id = item.titleResourceId),
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(140.dp)
+                    .width(400.dp)
+                    .height(200.dp)
                     .clip(RoundedCornerShape(16.dp))
             )
-            Column(modifier = Modifier.padding(start = 16.dp)) {
-                Text(
-                    text = stringResource(id = item.titleResourceId),
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Text(
-                    text = stringResource(id = item.subtitleResourceId),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Text(
-                    text = stringResource(id = item.descriptionResourceId),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = stringResource(id = item.detailResourceId),
-                    style = MaterialTheme.typography.bodySmall,
-                    maxLines = 4,
-                    textAlign = TextAlign.Justify,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
         }
     }
 
@@ -251,7 +230,7 @@ fun ItemCarousel(
     }
 }
 
-@Preview
+@Preview(device = "spec:parent=pixel_5,orientation=landscape")
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
@@ -264,6 +243,7 @@ fun HomeScreenPreview() {
                     descriptionResourceId = R.string.item1_desc,
                     detailResourceId = R.string.item1_detail,
                     imageResourceId = R.drawable.crosscode,
+                    detailImageResourceId = R.drawable.crosscode_detail,
                     steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
                 ),
                 ScrollableData(
@@ -273,6 +253,7 @@ fun HomeScreenPreview() {
                     descriptionResourceId = R.string.item2_desc,
                     detailResourceId = R.string.item2_detail,
                     imageResourceId = R.drawable.hades2,
+                    detailImageResourceId = R.drawable.hades2_detail,
                     steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
                 ),
                 ScrollableData(
@@ -282,6 +263,7 @@ fun HomeScreenPreview() {
                     descriptionResourceId = R.string.item3_desc,
                     detailResourceId = R.string.item3_detail,
                     imageResourceId = R.drawable.nms,
+                    detailImageResourceId = R.drawable.nms_detail,
                     steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
                 ),
                 ScrollableData(
@@ -291,6 +273,7 @@ fun HomeScreenPreview() {
                     descriptionResourceId = R.string.item4_desc,
                     detailResourceId = R.string.item4_detail,
                     imageResourceId = R.drawable.coe33,
+                    detailImageResourceId = R.drawable.coe33_detail,
                     steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
                 ),
                 ScrollableData(
@@ -300,6 +283,7 @@ fun HomeScreenPreview() {
                     descriptionResourceId = R.string.item5_desc,
                     detailResourceId = R.string.item5_detail,
                     imageResourceId = R.drawable.sekiro,
+                    detailImageResourceId = R.drawable.sekiro_detail,
                     steamUrl = "https://store.steampowered.com/app/368340/CrossCode/"
                 ),
             )
