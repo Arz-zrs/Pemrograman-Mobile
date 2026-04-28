@@ -101,7 +101,7 @@ fun DetailScreen(
     }
 }
 
-@Preview(locale = "in")
+@Preview
 @Composable
 fun DetailScreenPreview() {
     DetailScreen(

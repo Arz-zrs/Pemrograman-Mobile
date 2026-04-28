@@ -230,7 +230,7 @@ fun ItemCarousel(
     }
 }
 
-@Preview(device = "spec:parent=pixel_5,orientation=landscape")
+@Preview
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
