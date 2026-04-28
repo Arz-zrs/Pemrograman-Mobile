@@ -2,6 +2,7 @@ package com.example.scrollablemodul3.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -52,6 +53,7 @@ fun SettingScreen(
             modifier = modifier
                 .padding(innerPadding)
                 .padding(16.dp)
+                .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
