@@ -59,7 +59,7 @@ fun SettingScreen(
             Text(
                 text = stringResource(R.string.setting_header),
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(vertical = 8.dp)
             )
 
             Row(
