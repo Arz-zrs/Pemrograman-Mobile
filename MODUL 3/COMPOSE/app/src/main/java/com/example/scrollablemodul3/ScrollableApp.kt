@@ -30,8 +30,8 @@ fun ScrollableApp(
     val context = LocalContext.current
 
     NavHost(
-            navController = navController,
-            startDestination = ScrollableScreen.Home.name
+        navController = navController,
+        startDestination = ScrollableScreen.Home.name,
     ) {
         composable(route = ScrollableScreen.Home.name) {
             val activity = context as Activity
