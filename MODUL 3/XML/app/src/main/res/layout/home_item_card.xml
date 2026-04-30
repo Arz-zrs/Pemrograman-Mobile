@@ -62,7 +62,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/steam_button"
                     android:maxLines="1"
-                    android:textAppearance="?attr/textAppearanceBodySmall"/>
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:paddingHorizontal="16dp"/>
                 
                 <Space
                     android:layout_width="8dp"
