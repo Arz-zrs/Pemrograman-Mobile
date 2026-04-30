@@ -8,7 +8,8 @@ import com.example.scrollablexml.model.ScrollableData
 import com.example.scrollablexml.ui.home.viewholder.CarouselViewHolder
 
 class CarouselAdapter(
-    private val items: List<ScrollableData>
+    private val items: List<ScrollableData>,
+    private val onDetailClicked: (Int) -> Unit
 ): RecyclerView.Adapter<CarouselViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
@@ -19,7 +20,7 @@ class CarouselAdapter(
     }
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], position, onDetailClicked)
     }
 
     override fun getItemCount() = items.size

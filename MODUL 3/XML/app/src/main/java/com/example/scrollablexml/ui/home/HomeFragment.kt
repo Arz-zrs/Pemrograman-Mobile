@@ -56,7 +56,13 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
-                    val carouselAdapter = CarouselHeaderAdapter(uiState.list)
+                    val carouselAdapter = CarouselHeaderAdapter(
+                        items = uiState.list,
+                        onDetailClick = { index ->
+                            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(itemIndex = index)
+                            findNavController().navigate(action)
+                        }
+                    )
                     val itemCardAdapter = ItemCardAdapter(
                         uiState.list,
                         onDetailClicked = { index ->

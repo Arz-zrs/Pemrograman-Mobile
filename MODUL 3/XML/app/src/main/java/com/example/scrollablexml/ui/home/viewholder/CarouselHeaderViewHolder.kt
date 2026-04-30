@@ -12,8 +12,8 @@ import com.example.scrollablexml.ui.home.adapter.CarouselAdapter
 class CarouselHeaderViewHolder (
     private val binding: HomeCarouselHeaderBinding
 ): RecyclerView.ViewHolder(binding.root) {
-    fun bind(items: List<ScrollableData>){
-        val _adapter = CarouselAdapter(items)
+    fun bind(items: List<ScrollableData>, onDetailClicked: (Int) -> Unit){
+        val _adapter = CarouselAdapter(items, onDetailClicked)
         binding.rvCarousel.apply {
             layoutManager = LinearLayoutManager(
                 context, LinearLayoutManager.HORIZONTAL, false
