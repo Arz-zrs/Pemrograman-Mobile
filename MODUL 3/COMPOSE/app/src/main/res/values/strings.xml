@@ -58,6 +58,8 @@
     <string name="setting_button">Settings</string>
     <string name="detail_button">Details</string>
     <string name="steam_button">Open Steam</string>
+    <string name="english_button" translatable="false">English</string>
+    <string name="indonesian_button" translatable="false">Indonesia</string>
 
     <string name="setting_header">Language</string>
 </resources>

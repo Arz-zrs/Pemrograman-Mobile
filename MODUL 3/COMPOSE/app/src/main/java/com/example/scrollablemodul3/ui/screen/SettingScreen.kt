@@ -70,7 +70,7 @@ fun SettingScreen(
                     selected = selectedLocale == "en",
                     onClick = { onLocaleChange("en") }
                 )
-                Text(text = "English")
+                Text(text = stringResource(R.string.english_button))
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -80,7 +80,8 @@ fun SettingScreen(
                 selected = selectedLocale == "in",
                 onClick = { onLocaleChange("in") }
             )
-                Text(text = "Indonesia")}
+                Text(text = stringResource(R.string.indonesian_button))
+            }
         }
     }
 }
