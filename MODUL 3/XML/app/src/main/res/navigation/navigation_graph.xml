@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.scrollablexml.ui.detail.DetailFragment"
-        android:label="string/detail_label">
+        android:label="@string/detail_label">
         <argument
             android:name="itemIndex"
             app:argType="integer"
