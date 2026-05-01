@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="140dp"
             android:scaleType="fitXY"
-            android:background="@drawable/crosscode"/>
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"/>
         
         <LinearLayout
             android:layout_width="0dp"
@@ -30,21 +30,18 @@
             
             <TextView
                 android:id="@+id/tv_title"
-                android:text="@string/item1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"/>
 
             <TextView
                 android:id="@+id/tv_subtitle"
-                android:text="@string/item1_sub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?attr/textAppearanceBodyLarge"/>
 
             <TextView
                 android:id="@+id/tv_desc"
-                android:text="@string/item1_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?attr/textAppearanceBodyMedium"/>

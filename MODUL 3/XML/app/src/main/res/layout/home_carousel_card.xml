@@ -20,7 +20,6 @@
             android:layout_width="400dp"
             android:layout_height="200dp"
             android:scaleType="fitXY"
-            android:background="@drawable/crosscode_detail"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"/>
 
     </LinearLayout>
