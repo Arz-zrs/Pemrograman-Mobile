@@ -93,7 +93,8 @@ fun HomeScreen(
         ) {
             item {
                 ItemCarousel(
-                    items = uiState.list
+                    items = uiState.list,
+                    onDetailClick = { index -> onDetailClick(index) }
                 )
             }
             itemsIndexed(uiState.list) { index, item ->
@@ -183,9 +184,11 @@ fun ItemCard(
 @Composable
 fun CarouselCard(
     item: ScrollableData,
+    onDetailClick: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Card(
+        onClick = onDetailClick,
         modifier = modifier.padding(8.dp),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -217,15 +220,17 @@ fun CarouselCard(
 @Composable
 fun ItemCarousel(
     items: List<ScrollableData>,
+    onDetailClick: (Int) -> Unit,
 ) {
     val listState = rememberLazyListState()
     LazyRow(
         state = listState,
         flingBehavior = rememberSnapFlingBehavior(listState)
     ) {
-        itemsIndexed(items) { _, item ->
+        itemsIndexed(items) { index, item ->
             CarouselCard(
                 item = item,
+                onDetailClick = { onDetailClick(index) },
                 modifier = Modifier.fillParentMaxWidth()
             )
         }
