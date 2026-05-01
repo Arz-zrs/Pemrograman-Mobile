@@ -38,7 +38,7 @@ class DetailFragment : Fragment() {
         }
 
         val index = args.itemIndex
-        viewModel.updateCurrentScrollable(index)
+        viewModel.updateCurrentItem(index)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

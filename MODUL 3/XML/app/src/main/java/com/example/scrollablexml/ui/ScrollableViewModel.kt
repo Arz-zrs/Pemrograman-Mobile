@@ -22,7 +22,7 @@ class ScrollableViewModel : ViewModel() {
         )
     }
 
-    fun updateCurrentScrollable(index: Int) {
+    fun updateCurrentItem(index: Int) {
         _uiState.value = _uiState.value.copy(
             currentItemIndex = index
         )
