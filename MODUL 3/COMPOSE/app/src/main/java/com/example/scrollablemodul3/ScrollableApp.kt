@@ -51,7 +51,7 @@ fun ScrollableApp(
             val index = backStackEntry.arguments?.getString("itemId")?.toIntOrNull() ?: 0
             val item = uiState.list.getOrNull(index) ?: uiState.list.first()
             LaunchedEffect(index){
-                viewModel.updateCurrentScrollable(index)
+                viewModel.updateCurrentItem(index)
             }
             DetailScreen(
                 item = item,
