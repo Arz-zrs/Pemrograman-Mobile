@@ -66,10 +66,12 @@ class HomeFragment : Fragment() {
                     val itemCardAdapter = ItemCardAdapter(
                         uiState.list,
                         onDetailClicked = { index ->
+                            viewModel.onDetailButtonClicked()
                             val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(itemIndex = index)
                             findNavController().navigate(action)
                         },
                         onSteamClicked = { url ->
+                            viewModel.onIntentButtonClicked()
                             startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
                         }
                     )
