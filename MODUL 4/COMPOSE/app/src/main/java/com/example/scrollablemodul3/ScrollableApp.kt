@@ -18,7 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.scrollablemodul3.ui.screen.DetailScreen
 import com.example.scrollablemodul3.ui.screen.HomeScreen
 import com.example.scrollablemodul3.ui.ScrollableViewModel
-import com.example.scrollablemodul3.ui.ScrollableViewModelFactory
 import com.example.scrollablemodul3.ui.screen.SettingScreen
 
 enum class ScrollableScreen { Home, Details, Settings }
@@ -29,7 +28,7 @@ fun ScrollableApp(
 ) {
     val defaultLocale = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "en"
     val viewModel: ScrollableViewModel = viewModel(
-        factory = ScrollableViewModelFactory(defaultLocale)
+        factory = ScrollableViewModel.Factory(defaultLocale)
     )
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
