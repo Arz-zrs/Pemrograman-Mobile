@@ -2,6 +2,7 @@ package com.example.scrollablemodul3
 
 import android.app.Activity
 import android.content.Intent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,15 +18,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.scrollablemodul3.ui.screen.DetailScreen
 import com.example.scrollablemodul3.ui.screen.HomeScreen
 import com.example.scrollablemodul3.ui.ScrollableViewModel
+import com.example.scrollablemodul3.ui.ScrollableViewModelFactory
 import com.example.scrollablemodul3.ui.screen.SettingScreen
 
 enum class ScrollableScreen { Home, Details, Settings }
 
 @Composable
 fun ScrollableApp(
-    viewModel: ScrollableViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
+    val defaultLocale = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "en"
+    val viewModel: ScrollableViewModel = viewModel(
+        factory = ScrollableViewModelFactory(defaultLocale)
+    )
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 

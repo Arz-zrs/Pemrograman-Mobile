@@ -8,17 +8,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class ScrollableViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(ScrollableUiState())
+class ScrollableViewModel(initialLocale: String) : ViewModel() {
+    private val _uiState = MutableStateFlow(ScrollableUiState(selectedLocale = initialLocale))
     val uiState: StateFlow<ScrollableUiState> = _uiState.asStateFlow()
 
     init {
         val items = DataSource().loadItems()
-        val currentLocale = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "en"
         _uiState.value = ScrollableUiState(
             list = items,
             currentItemIndex = 0,
-            selectedLocale = currentLocale
+            selectedLocale = initialLocale
         )
     }
 
