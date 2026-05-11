@@ -44,9 +44,11 @@ fun ScrollableApp(
                 uiState = uiState,
                 onDetailClick = { index ->
                     navController.navigate("${ScrollableScreen.Details.name}/$index")
+                    viewModel.onDetailButtonClicked()
                 },
                 onIntentClick = { url ->
                     context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+                    viewModel.onIntentButtonClicked()
                 },
                 onSettingsClick = { navController.navigate(ScrollableScreen.Settings.name) },
                 onExit = { activity.finish() }
