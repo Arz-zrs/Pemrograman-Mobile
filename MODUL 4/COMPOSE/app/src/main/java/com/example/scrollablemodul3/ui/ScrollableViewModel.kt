@@ -3,6 +3,9 @@ package com.example.scrollablemodul3.ui
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.scrollablemodul3.model.DataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,5 +51,13 @@ class ScrollableViewModel(initialLocale: String) : ViewModel() {
         )
         val appLocale = LocaleListCompat.forLanguageTags(locale)
         AppCompatDelegate.setApplicationLocales(appLocale)
+    }
+
+    companion object {
+        fun Factory(initialLocale: String): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                ScrollableViewModel(initialLocale)
+            }
+        }
     }
 }
