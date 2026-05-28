@@ -69,7 +69,7 @@ fun HomeAppBar(
                     contentDescription = stringResource(R.string.movies_button)
                 )
             }
-            IconButton(onClick =  onSettingClick ) {
+            IconButton(onClick =  onSettingClick) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = stringResource(R.string.setting_button)
