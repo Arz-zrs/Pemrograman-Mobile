@@ -6,7 +6,7 @@ import com.example.scrollablemodul3.model.data.remote.ApiResponse
 import com.example.scrollablemodul3.model.data.remote.NetworkModule
 import com.example.scrollablemodul3.model.data.remote.api.TmdbApiService
 import com.example.scrollablemodul3.model.data.remote.dto.MovieDto
-import com.example.scrollablemodul3.model.data.remote.dto.MovieResponse
+import com.example.scrollablemodul3.model.data.remote.MovieResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow

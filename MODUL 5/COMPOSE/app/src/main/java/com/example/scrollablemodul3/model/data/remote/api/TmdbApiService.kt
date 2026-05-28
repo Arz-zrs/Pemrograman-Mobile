@@ -1,6 +1,6 @@
 package com.example.scrollablemodul3.model.data.remote.api
 
-import com.example.scrollablemodul3.model.data.remote.dto.MovieResponse
+import com.example.scrollablemodul3.model.data.remote.MovieResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
