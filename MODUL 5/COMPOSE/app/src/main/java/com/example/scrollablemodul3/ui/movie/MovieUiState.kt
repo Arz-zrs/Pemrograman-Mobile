@@ -8,4 +8,7 @@ data class MovieUiState(
     val errorMessage: String? = null,
     val selectedCategory: String = "popular",
     val selectedLanguage: String = "en-US"
-)
+) {
+    val hasError: Boolean get() = !errorMessage.isNullOrBlank()
+    val isInitialLoading: Boolean get() = movies.isEmpty() && isLoading
+}

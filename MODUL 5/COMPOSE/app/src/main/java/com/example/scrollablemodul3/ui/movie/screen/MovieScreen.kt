@@ -46,6 +46,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import coil3.request.error
+import coil3.request.placeholder
 import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.ScrollableApplication
 import com.example.scrollablemodul3.model.data.local.entity.MovieEntity
@@ -97,7 +99,7 @@ fun MovieScreen(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
-            if (uiState.isLoading && uiState.movies.isEmpty()) {
+            if (uiState.isInitialLoading) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
 
@@ -116,18 +118,18 @@ fun MovieContent(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when {
-            uiState.isLoading && uiState.movies.isEmpty() -> {
+            uiState.isInitialLoading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
-            uiState.errorMessage != null && uiState.movies.isEmpty() -> {
+            uiState.hasError && uiState.movies.isEmpty() -> {
                 Column(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(24.dp),
                 ) {
                     Text(
-                        text = uiState.errorMessage,
+                        text = uiState.errorMessage ?: "",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error
                     )
@@ -142,9 +144,9 @@ fun MovieContent(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    if (uiState.errorMessage != null) {
+                    uiState.errorMessage?.let { message ->
                         item {
-                            ErrorBanner(message = uiState.errorMessage)
+                            ErrorBanner(message = message)
                         }
                     }
                     items(uiState.movies, key = { it.id }) { index ->
@@ -170,13 +172,15 @@ fun MovieCard(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(
-                        if (movie.posterPath != null) {
+                        if (!movie.posterPath.isNullOrEmpty()) {
                             "https://image.tmdb.org/t/p/w500${movie.posterPath}"
                         } else {
-                            null
+                            R.drawable.image_error
                         }
                     )
                     .crossfade(true)
+                    .placeholder(R.drawable.image_loading)
+                    .error(R.drawable.image_error)
                     .build(),
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
