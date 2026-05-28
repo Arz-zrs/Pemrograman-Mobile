@@ -1,4 +1,4 @@
-package com.example.scrollablemodul3.ui
+package com.example.scrollablemodul3.ui.gamelist
 
 import com.example.scrollablemodul3.model.ScrollableData
 

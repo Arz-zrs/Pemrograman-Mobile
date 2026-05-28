@@ -1,4 +1,4 @@
-package com.example.scrollablemodul3.ui.screen
+package com.example.scrollablemodul3.ui.gamelist.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -40,12 +41,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.model.ScrollableData
-import com.example.scrollablemodul3.ui.ScrollableUiState
+import com.example.scrollablemodul3.ui.gamelist.ScrollableUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeAppBar(
     onSettingClick: () -> Unit,
+    onMovieClick: () -> Unit,
     onExit: () -> Unit
 ) {
     TopAppBar(
@@ -61,6 +63,12 @@ fun HomeAppBar(
             }
         },
         actions = {
+            IconButton(onClick = onMovieClick) {
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = stringResource(R.string.movies_button)
+                )
+            }
             IconButton(onClick =  onSettingClick ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
@@ -76,6 +84,7 @@ fun HomeScreen(
     onDetailClick: (Int) -> Unit,
     onIntentClick: (String) -> Unit,
     onSettingsClick: () -> Unit,
+    onMovieClick: () -> Unit,
     onExit: () -> Unit,
     modifier: Modifier = Modifier
 ){
@@ -83,6 +92,7 @@ fun HomeScreen(
         topBar = {
             HomeAppBar(
                 onSettingClick = onSettingsClick,
+                onMovieClick = onMovieClick,
                 onExit = onExit
             )
         }
@@ -299,6 +309,7 @@ fun HomeScreenPreview() {
         onDetailClick = {},
         onIntentClick = {},
         onSettingsClick = {},
-        onExit = {}
+        onExit = {},
+        onMovieClick = {}
     )
 }

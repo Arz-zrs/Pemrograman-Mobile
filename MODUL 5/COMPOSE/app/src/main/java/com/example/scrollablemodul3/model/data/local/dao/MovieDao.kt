@@ -1,0 +1,26 @@
+package com.example.scrollablemodul3.model.data.local.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.example.scrollablemodul3.model.data.local.entity.MovieEntity
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface MovieDao {
+    @Query("SELECT * FROM movies WHERE category = :category AND language = :language ORDER BY voteAverage DESC")
+    fun getMoviesByCategory(category: String, language: String): Flow<List<MovieEntity>>
+
+    @Query("SELECT COUNT(*) FROM movies WHERE category = :category ORDER BY cachedAt DESC LIMIT 1")
+    suspend fun getCountByCategory(category: String): Int
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(movies: List<MovieEntity>)
+
+    @Query("DELETE FROM movies WHERE category = :category")
+    suspend fun deleteByCategory(category: String)
+
+    @Query("SELECT cachedAt FROM movies WHERE category = :category LIMIT 1")
+    suspend fun getLastCachedTime(category: String): Long?
+}

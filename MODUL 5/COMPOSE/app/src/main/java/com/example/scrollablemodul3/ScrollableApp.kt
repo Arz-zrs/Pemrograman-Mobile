@@ -15,20 +15,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.scrollablemodul3.ui.screen.DetailScreen
-import com.example.scrollablemodul3.ui.screen.HomeScreen
-import com.example.scrollablemodul3.ui.ScrollableViewModel
-import com.example.scrollablemodul3.ui.screen.SettingScreen
+import com.example.scrollablemodul3.ui.gamelist.screen.DetailScreen
+import com.example.scrollablemodul3.ui.gamelist.screen.HomeScreen
+import com.example.scrollablemodul3.ui.gamelist.ScrollableViewModel
+import com.example.scrollablemodul3.ui.gamelist.screen.SettingScreen
+import com.example.scrollablemodul3.ui.movie.screen.MovieScreen
 
-enum class ScrollableScreen { Home, Details, Settings }
+enum class ScrollableScreen { Home, Details, Settings, Movie }
 
 @Composable
 fun ScrollableApp(
     navController: NavHostController = rememberNavController()
 ) {
     val defaultLocale = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "en"
+    val app = LocalContext.current.applicationContext as ScrollableApplication
     val viewModel: ScrollableViewModel = viewModel(
-        factory = ScrollableViewModel.Factory(defaultLocale)
+        factory = ScrollableViewModel.Factory(
+            initialLocale = defaultLocale,
+            preferencesRepository = app.preferencesRepository
+        )
     )
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -50,6 +55,7 @@ fun ScrollableApp(
                     viewModel.onIntentButtonClicked()
                 },
                 onSettingsClick = { navController.navigate(ScrollableScreen.Settings.name) },
+                onMovieClick = { navController.navigate(ScrollableScreen.Movie.name) },
                 onExit = { activity.finish() }
                 )
         }
@@ -71,6 +77,11 @@ fun ScrollableApp(
                 onBackClick = { navController.navigateUp() },
                 onLocaleChange = { locale -> viewModel.updateLocale(locale) },
                 selectedLocale = uiState.selectedLocale
+            )
+        }
+        composable(route = ScrollableScreen.Movie.name) {
+            MovieScreen(
+                onBackClick = { navController.navigateUp() }
             )
         }
     }

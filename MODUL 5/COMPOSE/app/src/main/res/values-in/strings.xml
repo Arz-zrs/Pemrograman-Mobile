@@ -53,4 +53,15 @@
     <string name="steam_button">Buka Steam</string>
 
     <string name="setting_header">Bahasa</string>
+
+    <string name="movies_button">Film</string>
+    <string name="movie_list_title">Daftar Film</string>
+    <string name="refresh_button">Segarkan</string>
+    <string name="unknown">Tidak diketahui</string>
+    <string name="no_overview">Tidak ada ringkasan tersedia</string>
+    <string name="category_popular">Populer</string>
+    <string name="category_now_playing">Sedang Tayang</string>
+    <string name="category_top_rated">Rating Tertinggi</string>
+    <string name="rating_format">⭐ %1$.1f</string>
+    <string name="votes_format">(%1$d suara)</string>
 </resources>

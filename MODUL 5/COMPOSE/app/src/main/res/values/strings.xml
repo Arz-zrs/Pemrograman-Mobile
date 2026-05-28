@@ -62,4 +62,15 @@
     <string name="indonesian_button" translatable="false">Indonesia</string>
 
     <string name="setting_header">Language</string>
+
+    <string name="movies_button">Movies</string>
+    <string name="movie_list_title">Movie List</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="unknown">Unknown</string>
+    <string name="no_overview">No overview available</string>
+    <string name="category_popular">Popular</string>
+    <string name="category_now_playing">Now Playing</string>
+    <string name="category_top_rated">Top Rated</string>
+    <string name="rating_format">⭐ %1$.1f</string>
+    <string name="votes_format">(%1$d votes)</string>
 </resources>
