@@ -108,6 +108,10 @@ class MovieViewModel(
         loadMovies(forceRefresh = true)
     }
 
+    fun clearError() {
+        _uiState.value = _uiState.value.copy(errorMessage = "")
+    }
+
     companion object {
         fun Factory(
             repository: MovieRepository,

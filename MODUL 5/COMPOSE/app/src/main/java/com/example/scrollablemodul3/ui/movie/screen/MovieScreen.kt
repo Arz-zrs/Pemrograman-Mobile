@@ -1,5 +1,6 @@
 package com.example.scrollablemodul3.ui.movie.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -70,6 +72,13 @@ fun MovieScreen(
         factory = MovieViewModel.Factory(repository, app.preferencesRepository)
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(uiState.errorMessage) {
+        if (uiState.errorMessage.isNotBlank() && uiState.movies.isNotEmpty()) {
+            Toast.makeText(context, uiState.errorMessage, Toast.LENGTH_SHORT).show()
+            viewModel.clearError()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -147,11 +156,6 @@ fun MovieContent(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    if (uiState.hasError) {
-                        item {
-                            ErrorBanner(message = uiState.errorMessage)
-                        }
-                    }
                     items(uiState.movies, key = { it.id }) { index ->
                         MovieCard(movie = index)
                     }
@@ -240,23 +244,6 @@ fun MovieCard(
 }
 
 @Composable
-fun ErrorBanner(message: String) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer
-        )
-    ) {
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onErrorContainer,
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Composable
 fun MovieCategoryChips(
     selectedCategory: String,
     onCategorySelected: (String) -> Unit,
@@ -293,5 +280,5 @@ fun MovieCategoryChips(
 @Preview
 @Composable
 fun MovieScreenPreview() {
-    ErrorBanner(message = "Error message")
+    // Preview
 }
