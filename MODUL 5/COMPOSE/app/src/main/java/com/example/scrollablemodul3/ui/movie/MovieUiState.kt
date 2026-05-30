@@ -5,10 +5,10 @@ import com.example.scrollablemodul3.model.data.local.entity.MovieEntity
 data class MovieUiState(
     val movies: List<MovieEntity> = emptyList(),
     val isLoading: Boolean = false,
-    val errorMessage: String? = null,
+    val errorMessage: String = "",
     val selectedCategory: String = "popular",
     val selectedLanguage: String = "en-US"
 ) {
-    val hasError: Boolean get() = !errorMessage.isNullOrBlank()
+    val hasError: Boolean get() = errorMessage.isNotBlank()
     val isInitialLoading: Boolean get() = movies.isEmpty() && isLoading
 }

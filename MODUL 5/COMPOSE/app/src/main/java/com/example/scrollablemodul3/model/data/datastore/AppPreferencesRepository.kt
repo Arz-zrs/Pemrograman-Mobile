@@ -30,7 +30,7 @@ class AppPreferencesRepository(private val context: Context) {
                 throw exception
             }
         }
-        .map { prefs -> prefs[KEY_LOCALE] ?: "en" }
+        .map { preferences -> preferences[KEY_LOCALE] ?: "en" }
 
     val selectedMovieCategory: Flow<String> = context.dataStore.data
         .catch { exception ->

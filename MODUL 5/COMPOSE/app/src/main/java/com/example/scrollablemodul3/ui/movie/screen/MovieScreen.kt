@@ -31,7 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,7 +67,7 @@ fun MovieScreen(
     val viewModel: MovieViewModel = viewModel(
         factory = MovieViewModel.Factory(repository, app.preferencesRepository)
     )
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -129,7 +129,7 @@ fun MovieContent(
                         .padding(24.dp),
                 ) {
                     Text(
-                        text = uiState.errorMessage ?: "",
+                        text = uiState.errorMessage,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error
                     )
@@ -144,9 +144,9 @@ fun MovieContent(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    uiState.errorMessage?.let { message ->
+                    if (uiState.hasError) {
                         item {
-                            ErrorBanner(message = message)
+                            ErrorBanner(message = uiState.errorMessage)
                         }
                     }
                     items(uiState.movies, key = { it.id }) { index ->

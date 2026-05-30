@@ -29,7 +29,7 @@ class MovieViewModel(
                 _uiState.value = _uiState.value.copy(
                     selectedLanguage = appLocale,
                     movies = emptyList(),
-                    errorMessage = null
+                    errorMessage = ""
                 )
 
                 loadMovies(
@@ -72,20 +72,20 @@ class MovieViewModel(
                     is ApiResponse.Loading -> {
                         _uiState.value = _uiState.value.copy(
                             isLoading = true,
-                            errorMessage = null
+                            errorMessage = ""
                         )
                     }
                     is ApiResponse.Success -> {
                         _uiState.value = _uiState.value.copy(
                             movies = response.data,
                             isLoading = false,
-                            errorMessage = null
+                            errorMessage = ""
                         )
                     }
                     is ApiResponse.Error -> {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
-                            errorMessage = response.message
+                            errorMessage = response.message ?: "Unknown Error"
                         )
                     }
                 }
@@ -97,7 +97,7 @@ class MovieViewModel(
         _uiState.value = _uiState.value.copy(
             selectedCategory = category,
             movies = emptyList(),
-            errorMessage = null
+            errorMessage = ""
         )
         viewModelScope.launch {
             preferencesRepository.saveMovieCategory(category)
