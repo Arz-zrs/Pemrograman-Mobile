@@ -8,9 +8,12 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.scrollablemodul3.model.data.datastore.AppPreferencesRepository
 import com.example.scrollablemodul3.model.data.remote.ApiResponse
 import com.example.scrollablemodul3.model.data.repository.MovieRepository
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MovieViewModel(
@@ -18,34 +21,28 @@ class MovieViewModel(
     private val preferencesRepository: AppPreferencesRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MovieUiState())
+    private var fetchJob: Job? = null
+
     val uiState: StateFlow<MovieUiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            preferencesRepository.selectedLocale.collect { locale ->
+            combine(
+                preferencesRepository.selectedLocale,
+                preferencesRepository.selectedMovieCategory
+            ) { locale, category ->
                 val appLocale = mapLocale(locale)
-                val category = _uiState.value.selectedCategory
 
-                _uiState.value = _uiState.value.copy(
+                _uiState.update { it.copy(
                     selectedLanguage = appLocale,
+                    selectedCategory = category,
+                    movies = emptyList(),
+                    isLoading = true,
                     errorMessage = ""
-                )
+                ) }
 
-                loadMovies(
-                    category = category,
-                    language = appLocale,
-                    forceRefresh = false
-                )
-            }
-        }
-
-        viewModelScope.launch {
-            preferencesRepository.selectedMovieCategory.collect { savedCategory ->
-                if (_uiState.value.selectedCategory != savedCategory) {
-                    _uiState.value = _uiState.value.copy(selectedCategory = savedCategory)
-                }
-                loadMovies(category = savedCategory)
-            }
+                loadMovies(category = category, language = appLocale)
+            }.collect {}
         }
     }
 
@@ -59,7 +56,9 @@ class MovieViewModel(
         language: String = _uiState.value.selectedLanguage,
         forceRefresh: Boolean = false
     ) {
-        viewModelScope.launch {
+        fetchJob?.cancel()
+
+        fetchJob = viewModelScope.launch {
             val flow = when (category) {
                 "now_playing" -> repository.getNowPlayingMovies(language, forceRefresh)
                 "top_rated" -> repository.getTopRatedMovies(language, forceRefresh)
@@ -69,22 +68,19 @@ class MovieViewModel(
             flow.collect { response ->
                 when (response) {
                     is ApiResponse.Loading -> {
-                        _uiState.value = _uiState.value.copy(
-                            isLoading = true,
-                            errorMessage = ""
-                        )
+                        _uiState.update { it.copy(isLoading = true, errorMessage = "") }
                     }
                     is ApiResponse.Success -> {
-                        _uiState.value = _uiState.value.copy(
+                        _uiState.update { it.copy(
                             movies = response.data,
                             isLoading = false
-                        )
+                        ) }
                     }
                     is ApiResponse.Error -> {
-                        _uiState.value = _uiState.value.copy(
+                        _uiState.update { it.copy(
                             isLoading = false,
                             errorMessage = response.message ?: "Error"
-                        )
+                        ) }
                     }
                 }
             }
@@ -92,11 +88,12 @@ class MovieViewModel(
     }
 
     fun selectCategory(category: String, forceRefresh: Boolean = false) {
-        _uiState.value = _uiState.value.copy(
+        _uiState.update { it.copy(
             selectedCategory = category,
             movies = emptyList(),
+            isLoading = true,
             errorMessage = ""
-        )
+        ) }
         viewModelScope.launch {
             preferencesRepository.saveMovieCategory(category)
         }
@@ -105,10 +102,6 @@ class MovieViewModel(
 
     fun refresh() {
         loadMovies(forceRefresh = true)
-    }
-
-    fun clearError() {
-        _uiState.value = _uiState.value.copy(errorMessage = "")
     }
 
     companion object {

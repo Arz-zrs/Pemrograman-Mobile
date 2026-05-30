@@ -1,6 +1,5 @@
 package com.example.scrollablemodul3.ui.movie.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,7 +31,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -73,13 +71,6 @@ fun MovieScreen(
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(uiState.errorMessage) {
-        if (uiState.errorMessage.isNotBlank() && uiState.movies.isNotEmpty()) {
-            Toast.makeText(context, uiState.errorMessage, Toast.LENGTH_SHORT).show()
-            viewModel.clearError()
-        }
-    }
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -111,7 +102,7 @@ fun MovieScreen(
                 onRefresh = { viewModel.refresh() }
             )
 
-            if (uiState.isInitialLoading) {
+            if (uiState.movies.isEmpty() && uiState.isLoading) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
 
@@ -130,11 +121,11 @@ fun MovieContent(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when {
-            uiState.isInitialLoading -> {
+            uiState.movies.isEmpty() && uiState.isLoading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
-            uiState.hasError && uiState.movies.isEmpty() -> {
+            uiState.errorMessage.isNotBlank() && uiState.movies.isEmpty() -> {
                 Column(
                     modifier = Modifier
                         .align(Alignment.Center)

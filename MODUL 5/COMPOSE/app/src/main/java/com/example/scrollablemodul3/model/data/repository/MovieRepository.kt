@@ -24,8 +24,8 @@ class MovieRepository(
         private const val CACHE_DURATION_MS = 30 * 60 * 1000
     }
 
-    private suspend fun isCacheValid(category: String): Boolean {
-        val lastCache = movieDao.getLastCachedTime(category) ?: return false
+    private suspend fun isCacheValid(category: String, language: String): Boolean {
+        val lastCache = movieDao.getLastCachedTime(category, language) ?: return false
         val age = System.currentTimeMillis() - lastCache
         return age < CACHE_DURATION_MS
     }
@@ -53,7 +53,7 @@ class MovieRepository(
     ): Flow<ApiResponse<List<MovieEntity>>> = flow {
         emit(ApiResponse.Loading)
 
-        if (!forceRefresh && isCacheValid(category)) {
+        if (!forceRefresh && isCacheValid(category, language)) {
             val cached = movieDao.getMoviesByCategory(category, language).first()
             if (cached.isNotEmpty()) {
                 emit(ApiResponse.Success(cached))
@@ -68,10 +68,10 @@ class MovieRepository(
                     val results = response.body()?.results
                     if (!results.isNullOrEmpty()) {
                         val entities = results.map { it.toEntity(category, language) }
-                        movieDao.deleteByCategory(category)
+                        movieDao.deleteByCategory(category, language)
                         movieDao.insertAll(entities)
-                        val fresh = movieDao.getMoviesByCategory(category, language).first()
-                        emit(ApiResponse.Success(fresh))
+                        val data = movieDao.getMoviesByCategory(category, language).first()
+                        emit(ApiResponse.Success(data))
                     } else {
                         serveStaleOrError(category, language, "No movies returned from server")
                     }
