@@ -78,8 +78,7 @@ class MovieViewModel(
                     is ApiResponse.Success -> {
                         _uiState.value = _uiState.value.copy(
                             movies = response.data,
-                            isLoading = false,
-                            errorMessage = ""
+                            isLoading = false
                         )
                     }
                     is ApiResponse.Error -> {
@@ -93,7 +92,7 @@ class MovieViewModel(
         }
     }
 
-    fun selectCategory(category: String) {
+    fun selectCategory(category: String, forceRefresh: Boolean = false) {
         _uiState.value = _uiState.value.copy(
             selectedCategory = category,
             movies = emptyList(),
@@ -102,7 +101,7 @@ class MovieViewModel(
         viewModelScope.launch {
             preferencesRepository.saveMovieCategory(category)
         }
-        loadMovies(category)
+        loadMovies(category = category, forceRefresh = forceRefresh)
     }
 
     fun refresh() {

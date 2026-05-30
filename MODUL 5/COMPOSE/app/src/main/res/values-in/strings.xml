@@ -62,6 +62,6 @@
     <string name="category_popular">Populer</string>
     <string name="category_now_playing">Sedang Tayang</string>
     <string name="category_top_rated">Rating Tertinggi</string>
-    <string name="rating_format">⭐ %1$.1f</string>
+    <string name="rating_format">%1$.1f</string>
     <string name="votes_format">(%1$d suara)</string>
 </resources>

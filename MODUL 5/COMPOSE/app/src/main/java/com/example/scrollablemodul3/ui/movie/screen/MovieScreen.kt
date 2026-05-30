@@ -38,6 +38,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -95,8 +97,9 @@ fun MovieScreen(
         Column(modifier = modifier.padding(innerPadding)) {
             MovieCategoryChips(
                 selectedCategory = uiState.selectedCategory,
-                onCategorySelected = { viewModel.selectCategory(it) },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                onCategorySelected = { viewModel.selectCategory(it, forceRefresh = true) },
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                onRefresh = { viewModel.refresh() }
             )
 
             if (uiState.isInitialLoading) {
@@ -200,6 +203,12 @@ fun MovieCard(
                 )
                 Spacer(modifier.height(4.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.star),
+                        contentDescription = stringResource(R.string.rating_format),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = stringResource(R.string.rating_format, movie.voteAverage),
                         style = MaterialTheme.typography.bodyMedium,
@@ -251,6 +260,7 @@ fun ErrorBanner(message: String) {
 fun MovieCategoryChips(
     selectedCategory: String,
     onCategorySelected: (String) -> Unit,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val categories = listOf(
@@ -265,7 +275,10 @@ fun MovieCategoryChips(
         categories.forEach { (category, label) ->
             FilterChip(
                 selected = category == selectedCategory,
-                onClick = { onCategorySelected(category) },
+                onClick = {
+                    onCategorySelected(category)
+                    onRefresh()
+                },
                 label = {
                     Text(
                         text = label,
@@ -280,5 +293,5 @@ fun MovieCategoryChips(
 @Preview
 @Composable
 fun MovieScreenPreview() {
-    MovieScreen(onBackClick = {})
+    ErrorBanner(message = "Error message")
 }

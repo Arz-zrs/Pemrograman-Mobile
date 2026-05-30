@@ -9,6 +9,7 @@ import com.example.scrollablemodul3.model.data.remote.dto.MovieDto
 import com.example.scrollablemodul3.model.data.remote.MovieResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import timber.log.Timber
@@ -101,10 +102,9 @@ class MovieRepository(
     ) {
         val count = movieDao.getCountByCategory(category)
         if (count > 0) {
-            Timber.d("[$category] Serving stale cache ($count items)")
-            movieDao.getMoviesByCategory(category, language).collect { stale ->
-                emit(ApiResponse.Success(stale))
-            }
+            emit(ApiResponse.Error(message = message))
+            val staleData = movieDao.getMoviesByCategory(category, language).first()
+            emit(ApiResponse.Success(staleData))
         } else {
             emit(ApiResponse.Error(message = message))
         }
