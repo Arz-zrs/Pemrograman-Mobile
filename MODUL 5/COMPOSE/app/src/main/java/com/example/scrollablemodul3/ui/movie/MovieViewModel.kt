@@ -85,7 +85,7 @@ class MovieViewModel(
                     is ApiResponse.Error -> {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
-                            errorMessage = response.message ?: "Unknown Error"
+                            errorMessage = response.message ?: "Error"
                         )
                     }
                 }
