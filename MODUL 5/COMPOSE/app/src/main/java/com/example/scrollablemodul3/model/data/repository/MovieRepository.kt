@@ -54,59 +54,60 @@ class MovieRepository(
         emit(ApiResponse.Loading)
 
         if (!forceRefresh && isCacheValid(category)) {
-            Timber.d("Cache is valid for category $category")
-            movieDao.getMoviesByCategory(category, language).collect { movies ->
-                emit(ApiResponse.Success(movies))
+            val cached = movieDao.getMoviesByCategory(category, language).first()
+            if (cached.isNotEmpty()) {
+                emit(ApiResponse.Success(cached))
+                return@flow
             }
-            return@flow
         }
 
-        Timber.d("Cache is invalid or force refresh is true for category $category")
         try {
             val response = apiCall()
-
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null && body.results.isNotEmpty()) {
-                    val movies = body.results.map { it.toEntity(category, language) }
-                    movieDao.deleteByCategory(category)
-                    movieDao.insertAll(movies)
-                    movieDao.getMoviesByCategory(category, language).collect {
-                        emit(ApiResponse.Success(it))
+            when {
+                response.isSuccessful -> {
+                    val results = response.body()?.results
+                    if (!results.isNullOrEmpty()) {
+                        val entities = results.map { it.toEntity(category, language) }
+                        movieDao.deleteByCategory(category)
+                        movieDao.insertAll(entities)
+                        val fresh = movieDao.getMoviesByCategory(category, language).first()
+                        emit(ApiResponse.Success(fresh))
+                    } else {
+                        serveStaleOrError(category, language, "No movies returned from server")
                     }
-                } else {
-                    Timber.w("No movies found for category $category")
-                    emit(ApiResponse.Error("No movies found"))
                 }
-            } else {
-                val errorMsg = "HTTP ${response.code()}: ${response.errorBody()?.string()}"
-                Timber.e("Error fetching movies for category $category: $errorMsg")
-                emit(ApiResponse.Error(errorMsg))
+                else -> {
+                    val code = response.code()
+                    serveStaleOrError(category, language, "Server error ($code)")
+                }
             }
         } catch (e: UnknownHostException) {
-            Timber.e(e, "[$category] No internet connection")
-            serveStaleCache(category, language, "No internet connection. Showing cached data.")
+            Timber.e(e, "[$category] No Internet Connection")
+            serveStaleOrError(category, language, "No internet connection")
         } catch (e: SocketTimeoutException) {
-            Timber.e(e, "[$category] Connection timeout")
-            serveStaleCache(category, language, "Connection timeout. Showing cached data.")
+            Timber.e(e, "[$category] Connection timed out")
+            serveStaleOrError(category, language, "Connection timed out")
         } catch (e: Exception) {
             Timber.e(e, "[$category] Unexpected error")
-            serveStaleCache(category, language, e.localizedMessage ?: "Unexpected error")
+            serveStaleOrError(category, language, e.localizedMessage ?: "Unexpected error")
         }
     }
 
-    private suspend fun FlowCollector<ApiResponse<List<MovieEntity>>>.serveStaleCache(
+    private suspend fun FlowCollector<ApiResponse<List<MovieEntity>>>.serveStaleOrError(
         category: String,
         language: String,
         message: String
     ) {
-        val count = movieDao.getCountByCategory(category)
-        if (count > 0) {
-            emit(ApiResponse.Error(message = message))
-            val staleData = movieDao.getMoviesByCategory(category, language).first()
-            emit(ApiResponse.Success(staleData))
+        val stale = movieDao.getMoviesByCategory(category, language).first()
+        if (stale.isNotEmpty()) {
+            emit(ApiResponse.Success(data = stale))
         } else {
-            emit(ApiResponse.Error(message = message))
+            val anyLanguage = movieDao.getAnyMoviesByCategory(category).first()
+            if (anyLanguage.isNotEmpty()) {
+                emit(ApiResponse.Success(data = anyLanguage))
+            } else {
+                emit(ApiResponse.Error(message = message))
+            }
         }
     }
 

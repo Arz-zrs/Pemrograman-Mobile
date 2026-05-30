@@ -23,4 +23,7 @@ interface MovieDao {
 
     @Query("SELECT cachedAt FROM movies WHERE category = :category LIMIT 1")
     suspend fun getLastCachedTime(category: String): Long?
+
+    @Query("SELECT * FROM movies WHERE category = :category ORDER BY voteAverage DESC")
+    fun getAnyMoviesByCategory(category: String): Flow<List<MovieEntity>>
 }

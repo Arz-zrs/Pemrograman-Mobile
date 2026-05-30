@@ -64,4 +64,11 @@
     <string name="category_top_rated">Rating Tertinggi</string>
     <string name="rating_format">%1$.1f</string>
     <string name="votes_format">(%1$d suara)</string>
+
+    <string name="error_no_movies">Tidak ada film yang dikembalikan dari server</string>
+    <string name="error_server">Kesalahan server (%1$d)</string>
+    <string name="error_no_internet">Tidak ada koneksi internet</string>
+    <string name="error_timeout">Waktu koneksi habis</string>
+    <string name="error_unexpected">Kesalahan tidak terduga</string>
+    <string name="error_generic">Kesalahan</string>
 </resources>

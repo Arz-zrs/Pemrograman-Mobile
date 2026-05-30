@@ -28,7 +28,6 @@ class MovieViewModel(
 
                 _uiState.value = _uiState.value.copy(
                     selectedLanguage = appLocale,
-                    movies = emptyList(),
                     errorMessage = ""
                 )
 
