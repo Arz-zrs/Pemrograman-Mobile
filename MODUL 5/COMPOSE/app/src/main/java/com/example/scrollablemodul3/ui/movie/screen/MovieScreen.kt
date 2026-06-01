@@ -164,6 +164,7 @@ fun MovieCard(
     movie: MovieEntity,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -171,7 +172,7 @@ fun MovieCard(
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
+                model = ImageRequest.Builder(context)
                     .data(movie.fullPosterUrl)
                     .crossfade(true)
                     .placeholder(R.drawable.image_loading)
