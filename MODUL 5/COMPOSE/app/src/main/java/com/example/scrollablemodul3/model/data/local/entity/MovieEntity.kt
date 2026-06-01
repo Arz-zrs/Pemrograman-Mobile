@@ -22,4 +22,9 @@ data class MovieEntity(
     val category: String,
     val language: String,
     val cachedAt: Long = System.currentTimeMillis()
-)
+) {
+    val fullPosterUrl: String?
+        get() =
+            if (posterPath.isNullOrEmpty()) null
+            else "https://image.tmdb.org/t/p/w500$posterPath"
+}

@@ -49,6 +49,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.request.error
+import coil3.request.fallback
 import coil3.request.placeholder
 import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.ScrollableApplication
@@ -171,16 +172,11 @@ fun MovieCard(
         Row(modifier = Modifier.padding(16.dp)) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(
-                        if (!movie.posterPath.isNullOrEmpty()) {
-                            "https://image.tmdb.org/t/p/w500${movie.posterPath}"
-                        } else {
-                            R.drawable.image_error
-                        }
-                    )
+                    .data(movie.fullPosterUrl)
                     .crossfade(true)
                     .placeholder(R.drawable.image_loading)
                     .error(R.drawable.image_error)
+                    .fallback(R.drawable.image_error)
                     .build(),
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
