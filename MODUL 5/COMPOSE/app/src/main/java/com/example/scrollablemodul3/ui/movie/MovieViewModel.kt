@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.model.data.datastore.AppPreferencesRepository
 import com.example.scrollablemodul3.model.data.remote.ApiResponse
+import com.example.scrollablemodul3.model.data.remote.ErrorType
 import com.example.scrollablemodul3.model.data.repository.MovieRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,8 +39,7 @@ class MovieViewModel(
                     selectedLanguage = appLocale,
                     selectedCategory = category,
                     movies = emptyList(),
-                    isLoading = true,
-                    errorMessage = ""
+                    isLoading = true
                 ) }
 
                 loadMovies(category = category, language = appLocale)
@@ -68,18 +69,26 @@ class MovieViewModel(
             flow.collect { response ->
                 when (response) {
                     is ApiResponse.Loading -> {
-                        _uiState.update { it.copy(isLoading = true, errorMessage = "") }
+                        _uiState.update { it.copy(isLoading = true, errorMessage = ErrorMessage.None) }
                     }
                     is ApiResponse.Success -> {
                         _uiState.update { it.copy(
                             movies = response.data,
-                            isLoading = false
+                            isLoading = false,
+                            errorMessage = ErrorMessage.None
                         ) }
                     }
                     is ApiResponse.Error -> {
+                        val message = when (response.errorType) {
+                            ErrorType.NO_INTERNET -> R.string.error_no_internet
+                            ErrorType.NO_RESULTS -> R.string.error_no_movies
+                            ErrorType.SERVER_ERROR -> R.string.error_server
+                            ErrorType.TIMEOUT -> R.string.error_timeout
+                            else -> R.string.error_unexpected
+                        }
                         _uiState.update { it.copy(
-                            isLoading = false,
-                            errorMessage = response.message ?: "Error"
+                            errorMessage = ErrorMessage.ErrorMessageRes(message),
+                            isLoading = false
                         ) }
                     }
                 }
@@ -92,7 +101,7 @@ class MovieViewModel(
             selectedCategory = category,
             movies = emptyList(),
             isLoading = true,
-            errorMessage = ""
+            errorMessage = ErrorMessage.None
         ) }
         viewModelScope.launch {
             preferencesRepository.saveMovieCategory(category)

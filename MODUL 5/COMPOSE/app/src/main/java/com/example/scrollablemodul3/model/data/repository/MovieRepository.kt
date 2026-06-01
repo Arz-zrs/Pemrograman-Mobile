@@ -1,10 +1,9 @@
 package com.example.scrollablemodul3.model.data.repository
 
-import android.content.Context
-import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.model.data.local.dao.MovieDao
 import com.example.scrollablemodul3.model.data.local.entity.MovieEntity
 import com.example.scrollablemodul3.model.data.remote.ApiResponse
+import com.example.scrollablemodul3.model.data.remote.ErrorType
 import com.example.scrollablemodul3.model.data.remote.NetworkModule
 import com.example.scrollablemodul3.model.data.remote.api.TmdbApiService
 import com.example.scrollablemodul3.model.data.remote.dto.MovieDto
@@ -19,7 +18,6 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 class MovieRepository(
-    private val context: Context,
     private val apiService: TmdbApiService = NetworkModule.tmdbApiService,
     private val movieDao: MovieDao
 ) {
@@ -76,30 +74,31 @@ class MovieRepository(
                         val data = movieDao.getMoviesByCategory(category, language).first()
                         emit(ApiResponse.Success(data))
                     } else {
-                        serveStaleOrError(category, language, context.getString(R.string.error_no_movies))
+                        serveStaleOrError(category, language, ErrorType.NO_RESULTS)
                     }
                 }
                 else -> {
                     val code = response.code()
-                    serveStaleOrError(category, language, context.getString(R.string.error_server, code))
+                    serveStaleOrError(category, language, ErrorType.SERVER_ERROR, code)
                 }
             }
         } catch (e: UnknownHostException) {
             Timber.e(e, "[$category] No Internet Connection")
-            serveStaleOrError(category, language, context.getString(R.string.error_no_internet))
+            serveStaleOrError(category, language, ErrorType.NO_INTERNET)
         } catch (e: SocketTimeoutException) {
             Timber.e(e, "[$category] Connection timed out")
-            serveStaleOrError(category, language, context.getString(R.string.error_timeout))
+            serveStaleOrError(category, language, ErrorType.TIMEOUT)
         } catch (e: Exception) {
             Timber.e(e, "[$category] Unexpected error")
-            serveStaleOrError(category, language, e.localizedMessage ?: context.getString(R.string.error_unexpected))
+            serveStaleOrError(category, language, ErrorType.UNKNOWN)
         }
     }
 
     private suspend fun FlowCollector<ApiResponse<List<MovieEntity>>>.serveStaleOrError(
         category: String,
         language: String,
-        message: String
+        errorType: ErrorType,
+        statusCode: Int? = null
     ) {
         val stale = movieDao.getMoviesByCategory(category, language).first()
         if (stale.isNotEmpty()) {
@@ -109,7 +108,7 @@ class MovieRepository(
             if (anyLanguage.isNotEmpty()) {
                 emit(ApiResponse.Success(data = anyLanguage))
             } else {
-                emit(ApiResponse.Error(message = message))
+                emit(ApiResponse.Error(errorType, statusCode))
             }
         }
     }
