@@ -273,5 +273,9 @@ fun MovieCategoryChips(
 @Preview
 @Composable
 fun MovieScreenPreview() {
-    // Preview
+    MovieCategoryChips(
+        selectedCategory = "popular",
+        onCategorySelected = {},
+        onRefresh = {}
+    )
 }
