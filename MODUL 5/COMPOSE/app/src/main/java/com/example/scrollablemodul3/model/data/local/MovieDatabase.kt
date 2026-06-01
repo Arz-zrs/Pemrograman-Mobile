@@ -9,7 +9,7 @@ import com.example.scrollablemodul3.model.data.local.entity.MovieEntity
 
 @Database(
     entities = [MovieEntity::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
@@ -19,7 +19,7 @@ abstract class MovieDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: MovieDatabase? = null
 
-        fun getInstance(context: Context): MovieDatabase =
+        fun getDatabase(context: Context): MovieDatabase =
             INSTANCE ?: synchronized(this) {
                 Room.databaseBuilder(
                     context.applicationContext,
