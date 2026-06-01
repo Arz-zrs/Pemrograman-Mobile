@@ -75,7 +75,7 @@
     <string name="votes_format">(%1$d votes)</string>
 
     <string name="error_no_movies">No movies returned from server</string>
-    <string name="error_server">Server error (%1$d)</string>
+    <string name="error_server">Server error</string>
     <string name="error_no_internet">No internet connection</string>
     <string name="error_timeout">Connection timed out</string>
     <string name="error_unexpected">Unexpected error</string>

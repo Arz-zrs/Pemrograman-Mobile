@@ -78,8 +78,7 @@ class MovieRepository(
                     }
                 }
                 else -> {
-                    val code = response.code()
-                    serveStaleOrError(category, language, ErrorType.SERVER_ERROR, code)
+                    serveStaleOrError(category, language, ErrorType.SERVER_ERROR)
                 }
             }
         } catch (e: UnknownHostException) {
@@ -97,8 +96,7 @@ class MovieRepository(
     private suspend fun FlowCollector<ApiResponse<List<MovieEntity>>>.serveStaleOrError(
         category: String,
         language: String,
-        errorType: ErrorType,
-        statusCode: Int? = null
+        errorType: ErrorType
     ) {
         val stale = movieDao.getMoviesByCategory(category, language).first()
         if (stale.isNotEmpty()) {
@@ -108,7 +106,7 @@ class MovieRepository(
             if (anyLanguage.isNotEmpty()) {
                 emit(ApiResponse.Success(data = anyLanguage))
             } else {
-                emit(ApiResponse.Error(errorType, statusCode))
+                emit(ApiResponse.Error(errorType))
             }
         }
     }
