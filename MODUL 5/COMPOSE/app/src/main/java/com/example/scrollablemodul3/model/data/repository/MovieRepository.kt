@@ -1,5 +1,7 @@
 package com.example.scrollablemodul3.model.data.repository
 
+import android.content.Context
+import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.model.data.local.dao.MovieDao
 import com.example.scrollablemodul3.model.data.local.entity.MovieEntity
 import com.example.scrollablemodul3.model.data.remote.ApiResponse
@@ -17,6 +19,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 class MovieRepository(
+    private val context: Context,
     private val apiService: TmdbApiService = NetworkModule.tmdbApiService,
     private val movieDao: MovieDao
 ) {
@@ -73,23 +76,23 @@ class MovieRepository(
                         val data = movieDao.getMoviesByCategory(category, language).first()
                         emit(ApiResponse.Success(data))
                     } else {
-                        serveStaleOrError(category, language, "No movies returned from server")
+                        serveStaleOrError(category, language, context.getString(R.string.error_no_movies))
                     }
                 }
                 else -> {
                     val code = response.code()
-                    serveStaleOrError(category, language, "Server error ($code)")
+                    serveStaleOrError(category, language, context.getString(R.string.error_server, code))
                 }
             }
         } catch (e: UnknownHostException) {
             Timber.e(e, "[$category] No Internet Connection")
-            serveStaleOrError(category, language, "No internet connection")
+            serveStaleOrError(category, language, context.getString(R.string.error_no_internet))
         } catch (e: SocketTimeoutException) {
             Timber.e(e, "[$category] Connection timed out")
-            serveStaleOrError(category, language, "Connection timed out")
+            serveStaleOrError(category, language, context.getString(R.string.error_timeout))
         } catch (e: Exception) {
             Timber.e(e, "[$category] Unexpected error")
-            serveStaleOrError(category, language, e.localizedMessage ?: "Unexpected error")
+            serveStaleOrError(category, language, e.localizedMessage ?: context.getString(R.string.error_unexpected))
         }
     }
 

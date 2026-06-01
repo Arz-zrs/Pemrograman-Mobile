@@ -65,7 +65,7 @@ fun MovieScreen(
 ) {
     val context = LocalContext.current
     val app = context.applicationContext as ScrollableApplication
-    val repository = MovieRepository(movieDao = app.database.movieDao())
+    val repository = MovieRepository(context = context, movieDao = app.database.movieDao())
     val viewModel: MovieViewModel = viewModel(
         factory = MovieViewModel.Factory(repository, app.preferencesRepository)
     )
