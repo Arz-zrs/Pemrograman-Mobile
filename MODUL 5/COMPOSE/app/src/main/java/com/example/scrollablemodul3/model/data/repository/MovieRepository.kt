@@ -20,7 +20,7 @@ import java.net.UnknownHostException
 class MovieRepository(
     private val apiService: TmdbApiService = NetworkModule.tmdbApiService,
     private val movieDao: MovieDao
-) {
+): IMovieRepository {
     companion object {
         private const val CACHE_DURATION_MS = 30 * 60 * 1000
     }
@@ -111,17 +111,17 @@ class MovieRepository(
         }
     }
 
-    fun getPopularMovies(language: String, forceRefresh: Boolean = false): Flow<ApiResponse<List<MovieEntity>>> =
+    override fun getPopularMovies(language: String, forceRefresh: Boolean): Flow<ApiResponse<List<MovieEntity>>> =
         getMovies("popular", language, forceRefresh) {
             apiService.getPopularMovies(language = language)
         }
 
-    fun getNowPlayingMovies(language: String, forceRefresh: Boolean = false): Flow<ApiResponse<List<MovieEntity>>> =
+    override fun getNowPlayingMovies(language: String, forceRefresh: Boolean): Flow<ApiResponse<List<MovieEntity>>> =
         getMovies("now_playing", language, forceRefresh) {
             apiService.getNowPlayingMovies(language = language)
         }
 
-    fun getTopRatedMovies(language: String, forceRefresh: Boolean = false): Flow<ApiResponse<List<MovieEntity>>> =
+    override fun getTopRatedMovies(language: String, forceRefresh: Boolean): Flow<ApiResponse<List<MovieEntity>>> =
         getMovies("top_rated", language, forceRefresh) {
             apiService.getTopRatedMovies(language = language)
         }
