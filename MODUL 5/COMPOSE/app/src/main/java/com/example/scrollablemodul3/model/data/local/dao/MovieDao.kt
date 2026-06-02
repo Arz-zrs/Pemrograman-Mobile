@@ -12,9 +12,6 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE category = :category AND language = :language ORDER BY voteAverage DESC")
     fun getMoviesByCategory(category: String, language: String): Flow<List<MovieEntity>>
 
-    @Query("SELECT COUNT(*) FROM movies WHERE category = :category ORDER BY cachedAt DESC LIMIT 1")
-    suspend fun getCountByCategory(category: String): Int
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(movies: List<MovieEntity>)
 
