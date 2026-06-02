@@ -82,7 +82,7 @@ class MovieViewModel(
                         val message = when (response.errorType) {
                             ErrorType.NO_INTERNET -> R.string.error_no_internet
                             ErrorType.NO_RESULTS -> R.string.error_no_movies
-                            ErrorType.SERVER_ERROR -> R.string.error_server
+                            ErrorType.SERVER_OR_CLIENT_ERROR -> R.string.error_server_client
                             ErrorType.TIMEOUT -> R.string.error_timeout
                             else -> R.string.error_unexpected
                         }

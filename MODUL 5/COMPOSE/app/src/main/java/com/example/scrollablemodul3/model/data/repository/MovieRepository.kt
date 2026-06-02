@@ -78,7 +78,7 @@ class MovieRepository(
                     }
                 }
                 else -> {
-                    serveStaleOrError(category, language, ErrorType.SERVER_ERROR)
+                    serveStaleOrError(category, language, ErrorType.SERVER_OR_CLIENT_ERROR)
                 }
             }
         } catch (e: UnknownHostException) {
