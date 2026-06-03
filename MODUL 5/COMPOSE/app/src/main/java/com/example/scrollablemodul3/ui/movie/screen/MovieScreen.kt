@@ -54,7 +54,6 @@ import coil3.request.placeholder
 import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.ScrollableApplication
 import com.example.scrollablemodul3.model.data.local.entity.MovieEntity
-import com.example.scrollablemodul3.model.data.repository.MovieRepository
 import com.example.scrollablemodul3.ui.movie.ErrorMessage
 import com.example.scrollablemodul3.ui.movie.MovieUiState
 import com.example.scrollablemodul3.ui.movie.MovieViewModel
@@ -67,9 +66,8 @@ fun MovieScreen(
 ) {
     val context = LocalContext.current
     val app = context.applicationContext as ScrollableApplication
-    val repository = MovieRepository(movieDao = app.database.movieDao())
     val viewModel: MovieViewModel = viewModel(
-        factory = MovieViewModel.Factory(repository, app.preferencesRepository)
+        factory = MovieViewModel.Factory(app.movieRepository, app.preferencesRepository)
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

@@ -9,7 +9,7 @@ import com.example.scrollablemodul3.R
 import com.example.scrollablemodul3.model.data.datastore.AppPreferencesRepository
 import com.example.scrollablemodul3.model.data.remote.ApiResponse
 import com.example.scrollablemodul3.model.data.remote.ErrorType
-import com.example.scrollablemodul3.model.data.repository.MovieRepository
+import com.example.scrollablemodul3.model.data.repository.IMovieRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MovieViewModel(
-    private val repository: MovieRepository,
+    private val repository: IMovieRepository,
     private val preferencesRepository: AppPreferencesRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MovieUiState())
@@ -115,7 +115,7 @@ class MovieViewModel(
 
     companion object {
         fun Factory(
-            repository: MovieRepository,
+            repository: IMovieRepository,
             preferencesRepository: AppPreferencesRepository
         ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
