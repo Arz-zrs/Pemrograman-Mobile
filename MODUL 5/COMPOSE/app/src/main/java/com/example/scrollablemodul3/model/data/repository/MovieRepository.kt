@@ -55,7 +55,7 @@ class MovieRepository(
         emit(ApiResponse.Loading)
 
         if (!forceRefresh && isCacheValid(category, language)) {
-            val cached = movieDao.getMoviesByCategory(category, language).first()
+            val cached = movieDao.getMoviesByCategoryAndLanguage(category, language).first()
             if (cached.isNotEmpty()) {
                 emit(ApiResponse.Success(cached))
                 return@flow
@@ -69,9 +69,9 @@ class MovieRepository(
                     val results = response.body()?.results
                     if (!results.isNullOrEmpty()) {
                         val entities = results.map { it.toEntity(category, language) }
-                        movieDao.deleteByCategory(category, language)
+                        movieDao.deleteByCategoryAndLanguage(category, language)
                         movieDao.insertAll(entities)
-                        val data = movieDao.getMoviesByCategory(category, language).first()
+                        val data = movieDao.getMoviesByCategoryAndLanguage(category, language).first()
                         emit(ApiResponse.Success(data))
                     } else {
                         serveStaleOrError(category, language, ErrorType.NO_RESULTS)
@@ -98,7 +98,7 @@ class MovieRepository(
         language: String,
         errorType: ErrorType
     ) {
-        val stale = movieDao.getMoviesByCategory(category, language).first()
+        val stale = movieDao.getMoviesByCategoryAndLanguage(category, language).first()
         if (stale.isNotEmpty()) {
             emit(ApiResponse.Success(data = stale))
         } else {

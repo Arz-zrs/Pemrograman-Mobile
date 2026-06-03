@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movies WHERE category = :category AND language = :language ORDER BY voteAverage DESC")
-    fun getMoviesByCategory(category: String, language: String): Flow<List<MovieEntity>>
+    fun getMoviesByCategoryAndLanguage(category: String, language: String): Flow<List<MovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(movies: List<MovieEntity>)
 
     @Query("DELETE FROM movies WHERE category = :category AND language = :language")
-    suspend fun deleteByCategory(category: String, language: String)
+    suspend fun deleteByCategoryAndLanguage(category: String, language: String)
 
     @Query("SELECT cachedAt FROM movies WHERE category = :category AND language = :language LIMIT 1")
     suspend fun getLastCachedTime(category: String, language: String): Long?
