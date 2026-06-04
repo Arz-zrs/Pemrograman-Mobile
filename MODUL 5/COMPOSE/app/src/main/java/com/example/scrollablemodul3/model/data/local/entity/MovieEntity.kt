@@ -27,4 +27,9 @@ data class MovieEntity(
         get() =
             if (posterPath.isNullOrEmpty()) null
             else "https://image.tmdb.org/t/p/w500$posterPath"
+
+    val fullBackdropUrl: String?
+        get() =
+            if (backdropPath.isNullOrEmpty()) null
+            else "https://image.tmdb.org/t/p/w780$backdropPath"
 }

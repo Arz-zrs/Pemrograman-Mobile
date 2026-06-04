@@ -15,13 +15,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.scrollablemodul3.ui.gamelist.screen.DetailScreen
-import com.example.scrollablemodul3.ui.gamelist.screen.HomeScreen
-import com.example.scrollablemodul3.ui.gamelist.ScrollableViewModel
-import com.example.scrollablemodul3.ui.gamelist.screen.SettingScreen
-import com.example.scrollablemodul3.ui.movie.screen.MovieScreen
+import com.example.scrollablemodul3.ui.scrollable.screen.DetailScreen
+import com.example.scrollablemodul3.ui.scrollable.screen.HomeScreen
+import com.example.scrollablemodul3.ui.scrollable.ScrollableViewModel
+import com.example.scrollablemodul3.ui.scrollable.screen.SettingScreen
 
-enum class ScrollableScreen { Home, Details, Settings, Movie }
+enum class ScrollableScreen { Home, Details, Settings }
 
 @Composable
 fun ScrollableApp(
@@ -32,6 +31,7 @@ fun ScrollableApp(
     val viewModel: ScrollableViewModel = viewModel(
         factory = ScrollableViewModel.Factory(
             initialLocale = defaultLocale,
+            repository = app.movieRepository,
             preferencesRepository = app.preferencesRepository
         )
     )
@@ -48,28 +48,29 @@ fun ScrollableApp(
                 uiState = uiState,
                 onDetailClick = { index ->
                     navController.navigate("${ScrollableScreen.Details.name}/$index")
-                    viewModel.onDetailButtonClicked()
                 },
                 onIntentClick = { url ->
                     context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
                     viewModel.onIntentButtonClicked()
                 },
                 onSettingsClick = { navController.navigate(ScrollableScreen.Settings.name) },
-                onMovieClick = { navController.navigate(ScrollableScreen.Movie.name) },
+                onRefresh = { viewModel.refresh() },
                 onExit = { activity.finish() }
-                )
+            )
         }
         composable(route = "${ScrollableScreen.Details.name}/{itemId}") { backStackEntry ->
             val index = backStackEntry.arguments?.getString("itemId")?.toIntOrNull() ?: 0
-            val item = uiState.list.getOrNull(index) ?: uiState.list.first()
+            val item = uiState.movies.getOrNull(index)
             LaunchedEffect(index){
                 viewModel.updateCurrentItem(index)
             }
-            DetailScreen(
-                item = item,
-                modifier = Modifier,
-                onBackClick = { navController.navigateUp() }
-            )
+            if (item != null) {
+                DetailScreen(
+                    item = item,
+                    modifier = Modifier,
+                    onBackClick = { navController.navigateUp() }
+                )
+            }
         }
         composable(route = ScrollableScreen.Settings.name) {
             SettingScreen(
@@ -77,11 +78,6 @@ fun ScrollableApp(
                 onBackClick = { navController.navigateUp() },
                 onLocaleChange = { locale -> viewModel.updateLocale(locale) },
                 selectedLocale = uiState.selectedLocale
-            )
-        }
-        composable(route = ScrollableScreen.Movie.name) {
-            MovieScreen(
-                onBackClick = { navController.navigateUp() }
             )
         }
     }

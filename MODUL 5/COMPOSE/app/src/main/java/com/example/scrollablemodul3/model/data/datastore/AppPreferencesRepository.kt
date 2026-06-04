@@ -18,7 +18,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class AppPreferencesRepository(private val context: Context) {
     companion object {
         private val KEY_LOCALE = stringPreferencesKey("selected_locale")
-        private val KEY_MOVIE_CATEGORY = stringPreferencesKey("movie_category")
     }
 
     val selectedLocale: Flow<String> = context.dataStore.data
@@ -32,26 +31,9 @@ class AppPreferencesRepository(private val context: Context) {
         }
         .map { preferences -> preferences[KEY_LOCALE] ?: "en" }
 
-    val selectedMovieCategory: Flow<String> = context.dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                Timber.e(exception, "Error reading movie category preference")
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }
-        .map { preferences -> preferences[KEY_MOVIE_CATEGORY] ?: "popular" }
-
     suspend fun saveLocale(locale: String) {
         context.dataStore.edit { preferences ->
             preferences[KEY_LOCALE] = locale
-        }
-    }
-
-    suspend fun saveMovieCategory(category: String) {
-        context.dataStore.edit { preferences ->
-            preferences[KEY_MOVIE_CATEGORY] = category
         }
     }
 }

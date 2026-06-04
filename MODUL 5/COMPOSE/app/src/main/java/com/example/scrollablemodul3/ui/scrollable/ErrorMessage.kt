@@ -1,4 +1,4 @@
-package com.example.scrollablemodul3.ui.movie
+package com.example.scrollablemodul3.ui.scrollable
 
 import androidx.annotation.StringRes
 

@@ -1,4 +1,4 @@
-package com.example.scrollablemodul3.ui.gamelist.screen
+package com.example.scrollablemodul3.ui.scrollable.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

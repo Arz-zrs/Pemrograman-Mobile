@@ -1,5 +1,7 @@
-package com.example.scrollablemodul3.ui.movie
+package com.example.scrollablemodul3.ui.scrollable
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -14,59 +16,50 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class MovieViewModel(
+class ScrollableViewModel(
+    initialLocale: String,
     private val repository: IMovieRepository,
     private val preferencesRepository: AppPreferencesRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(MovieUiState())
+    private val _uiState = MutableStateFlow(ScrollableUiState(selectedLocale = initialLocale))
+    val uiState: StateFlow<ScrollableUiState> = _uiState.asStateFlow()
     private var fetchJob: Job? = null
-
-    val uiState: StateFlow<MovieUiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            combine(
-                preferencesRepository.selectedLocale,
-                preferencesRepository.selectedMovieCategory
-            ) { locale, category ->
+            preferencesRepository.selectedLocale.collect { locale ->
                 val appLocale = mapLocale(locale)
+                val isNewLanguage = appLocale != _uiState.value.selectedLanguage
 
                 _uiState.update { it.copy(
+                    selectedLocale = locale,
                     selectedLanguage = appLocale,
-                    selectedCategory = category,
                     movies = emptyList(),
                     isLoading = true
                 ) }
 
-                loadMovies(category = category, language = appLocale)
-            }.collect {}
+                loadMovies(language = appLocale, forceRefresh = isNewLanguage)
+            }
         }
     }
 
     fun mapLocale(locale: String) = when (locale) {
-        "in" -> "id-ID"
+        "in" -> "id"
         else -> "en-US"
     }
 
     private fun loadMovies(
-        category: String = _uiState.value.selectedCategory,
         language: String = _uiState.value.selectedLanguage,
         forceRefresh: Boolean = false
     ) {
         fetchJob?.cancel()
 
         fetchJob = viewModelScope.launch {
-            val flow = when (category) {
-                "now_playing" -> repository.getNowPlayingMovies(language, forceRefresh)
-                "top_rated" -> repository.getTopRatedMovies(language, forceRefresh)
-                else -> repository.getPopularMovies(language, forceRefresh)
-            }
-
-            flow.collect { response ->
+            repository.getPopularMovies(language, forceRefresh).collect { response ->
                 when (response) {
                     is ApiResponse.Loading -> {
                         _uiState.update { it.copy(isLoading = true, errorMessage = ErrorMessage.None) }
@@ -96,30 +89,43 @@ class MovieViewModel(
         }
     }
 
-    fun selectCategory(category: String, forceRefresh: Boolean = false) {
-        _uiState.update { it.copy(
-            selectedCategory = category,
-            movies = emptyList(),
-            isLoading = true,
-            errorMessage = ErrorMessage.None
-        ) }
-        viewModelScope.launch {
-            preferencesRepository.saveMovieCategory(category)
-        }
-        loadMovies(category = category, forceRefresh = forceRefresh)
-    }
-
     fun refresh() {
         loadMovies(forceRefresh = true)
     }
 
+    fun updateCurrentItem(index: Int) {
+        val selectedItem = _uiState.value.movies.getOrNull(index)
+        Timber.d("Selected at index $index of movieTitle: ${selectedItem?.title}")
+
+        _uiState.value = _uiState.value.copy(
+            currentItemIndex = index
+        )
+    }
+
+    fun updateLocale(locale: String) {
+        _uiState.value = _uiState.value.copy(
+            selectedLocale = locale
+        )
+        val appLocale = LocaleListCompat.forLanguageTags(locale)
+        AppCompatDelegate.setApplicationLocales(appLocale)
+
+        viewModelScope.launch {
+            preferencesRepository.saveLocale(locale)
+        }
+    }
+
+    fun onIntentButtonClicked() {
+        Timber.d("Intent button clicked")
+    }
+
     companion object {
         fun Factory(
+            initialLocale: String,
             repository: IMovieRepository,
             preferencesRepository: AppPreferencesRepository
         ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                MovieViewModel(repository, preferencesRepository)
+                ScrollableViewModel(initialLocale, repository, preferencesRepository)
             }
         }
     }

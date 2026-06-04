@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">ScrollableModul3</string>
-    <string name="head_title" translatable="false">ZweiGratee\'s Steam Game of 2025</string>
+    <string name="head_title" translatable="false">Movie List App</string>
 
     <string name="item1" translatable="false">CrossCode</string>
     <string name="item1_sub">Playtime: 79.8 hours</string>
@@ -63,6 +63,7 @@
 
     <string name="setting_header">Language</string>
 
+    <string name="tmdb_button">TMDB</string>
     <string name="movies_button">Movies</string>
     <string name="movie_list_title">Movie List</string>
     <string name="refresh_button">Refresh</string>
@@ -74,6 +75,7 @@
     <string name="rating_format">%1$.1f</string>
     <string name="votes_format">(%1$d votes)</string>
 
+    <string name="overview_title">Overview</string>
     <string name="error_no_movies">No movies returned from server</string>
     <string name="error_server_client">Server or client error</string>
     <string name="error_no_internet">No internet connection</string>

@@ -54,6 +54,7 @@
 
     <string name="setting_header">Bahasa</string>
 
+    <string name="tmdb_button">TMDB</string>
     <string name="movies_button">Film</string>
     <string name="movie_list_title">Daftar Film</string>
     <string name="refresh_button">Segarkan</string>
@@ -65,6 +66,7 @@
     <string name="rating_format">%1$.1f</string>
     <string name="votes_format">(%1$d suara)</string>
 
+    <string name="overview_title">Ringkasan</string>
     <string name="error_no_movies">Tidak ada film yang dikembalikan dari server</string>
     <string name="error_server_client">Kesalahan server atau klien</string>
     <string name="error_no_internet">Tidak ada koneksi internet</string>
